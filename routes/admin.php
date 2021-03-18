@@ -14,3 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'Admin\\DashboardController@index')->name('admin.dashboard');
+
+/* Ajax */
+Route::group(['as'=>'admin.api.', 'prefix' => 'api'], function(){
+    Route::get('/users-index', 'Admin\\UserController@datatablesIndex')->name('users.index');
+});
+
+Route::group(['as'=>'admin.'],function(){
+    Route::resource('users', 'Admin\\UserController');
+    Route::resource('roles', 'Admin\\RoleController');
+});
