@@ -12,6 +12,13 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         //
-        factory(App\Models\User::class, 50)->create();
+        App\Models\User::truncate();
+        DB::table('user_roles')->truncate();
+        $roles = App\Models\Role::all();
+        factory(App\Models\User::class, 50)->create()->each( function ($user) use ($roles) {
+            $user->roles()->attach(
+                $roles->random(rand(1,2))->pluck('id')->toArray()
+            );
+        });
     }
 }

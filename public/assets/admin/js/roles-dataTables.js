@@ -22,39 +22,60 @@ $(document).ready(function() {
         ],
         ajax: {
             "url"  : api, 
-            "data" : function (d) {
-                    d.filter_periode = $('#filter_periode').val();
-            }
+            // "data" : function (d) {
+            //         d.filter_periode = $('#filter_periode').val();
+            // }
         },
         columns: [
             {"data":"name"},
-            {"data":"email"},
-            {"data":"created_at"},
+            {
+                "data": null,
+                "render": function render(data, type, full, meta) {
+                    var btnEdit = '<a href="' + '/roles/' + full.id + '/edit' + '" class="btn btn-sm btn-info"><i class="fa fa-file"></i></a> ';
+                    var btnDelete = '<a href="' + '/roles/' + full.id + '" class="btn btn-sm btn-danger btn-delete"><i class="fa fa-trash-o"></i></a>';
+                    return btnEdit + btnDelete;
+                },
+                "class": "col-md-1"
+            }
         ],
-        columnDefs : [{
-            render : function (data,type,row){
-                return data + ' - ( ' + row['satuan'] + ')'; 
-            },
-            "targets" : 0
-            },
-            {"visible": false, "targets" : 1}
+        columnDefs : [
+            {"orderable": false, "targets" : 1}
         ],
         });
         
     //filter berdasarkan Nama Product
-    $('.filter-name').keyup(function () {
-        table.column( $(this).data('column'))
-        .search( $(this).val() )
-        .draw();
-    });
+    // $('.filter-name').keyup(function () {
+    //     table.column( $(this).data('column'))
+    //     .search( $(this).val() )
+    //     .draw();
+    // });
     //filter Berdasarkan satuan product
-    $('.filter-satuan').change(function () {
-        table.column( $(this).data('column'))
-        .search( $(this).val() )
-        .draw();
-    });
+    // $('.filter-satuan').change(function () {
+    //     table.column( $(this).data('column'))
+    //     .search( $(this).val() )
+    //     .draw();
+    // });
     //filter Berdasarkan periode
-    $('#filter_periode').change(function () {
-        table.draw();
+    // $('#filter_periode').change(function () {
+    //     table.draw();
+    // });
+
+    var oTable = $('#table-product').DataTable();
+
+
+    $('div.dataTables_filter input').off('keyup.DT input.DT');
+ 
+    var searchDelay = null;
+    
+    $('div.dataTables_filter input').on('keyup', function() {
+        var search = $('div.dataTables_filter input').val();
+    
+        clearTimeout(searchDelay);
+    
+        searchDelay = setTimeout(function() {
+            if (search != null) {
+                oTable.search(search).draw();
+            }
+        }, 200);
     });
 })

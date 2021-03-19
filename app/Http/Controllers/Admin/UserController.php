@@ -100,13 +100,13 @@ class UserController extends AdminController
         $orderColumnIndex = $request->input('order')[0]['column'];
         $orderColumn = $request->input('columns')[$orderColumnIndex]['data'];
         $orderDir = $request->input('order')[0]['dir'];
-
         
         if ($search) {
             $q = '%'.$search.'%';
-            $query = User::where(function ($query) use ($q) {
+            $query = User::whereHas('roles', function ($query) use ($q) {
                 $query->where('name', 'ilike', $q)
-                      ->orWhere('email', 'ilike', $q);
+                      ->orWhere('email', 'ilike', $q)
+                      ->orWhere('roles.name', 'ilike', $q);
             })->orderBy($orderColumn, $orderDir);
             $users = $query->offset($start)->limit($length)->get();
             $filtered = $query->count();
@@ -116,10 +116,15 @@ class UserController extends AdminController
         }
 
         foreach ($users as $user) {
+            $user_roles = [];
+            foreach ($user->roles as $role) {
+                $user_roles[] = $role->name;
+            }
             $data[] = [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'roles' => $user_roles,
                 'created_at' => Carbon::parse($user->created_at)->toDateTimeString(),
             ];
         }

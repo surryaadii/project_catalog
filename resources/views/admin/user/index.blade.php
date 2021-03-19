@@ -28,7 +28,8 @@
                                     <tr>
                                         <th> Nama </th>
                                         <th> Email </th>
-                                        <th> Create At </th>
+                                        <th> Roles </th>
+                                        <th> Created At </th>
                                         <th> Actions </th>
                                     </tr>
                                 </thead>

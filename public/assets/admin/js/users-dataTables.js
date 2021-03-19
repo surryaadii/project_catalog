@@ -1,4 +1,4 @@
-$(document).ready(function() {
+jQuery(function($) {
     var table = $('#table-product');
     var api = table.data('api');
     table.DataTable({
@@ -30,6 +30,7 @@ $(document).ready(function() {
         columns: [
             {"data":"name"},
             {"data":"email"},
+            {"data":"roles"},
             {"data":"created_at"},
             {
                 "data": null,
@@ -42,7 +43,7 @@ $(document).ready(function() {
             }
         ],
         columnDefs : [
-            { "orderable": false, "targets": [3] }
+            { "orderable": false, "targets": [2,4] }
         ],
         });
         

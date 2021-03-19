@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
+use App\Models\Role;
 
 class RoleController extends AdminController
 {
@@ -83,5 +84,45 @@ class RoleController extends AdminController
     public function destroy($id)
     {
         //
+    }
+
+    public function datatablesIndex(Request $request)
+    {
+        $draw = $request->input('draw');
+        $start = $request->input('start');
+        $length = $request->input('length');
+        $total = Role::count();
+        $filtered = 0;
+        $data = [];
+        $search = $request->input('search')['value'];
+
+        $orderColumnIndex = $request->input('order')[0]['column'];
+        $orderColumn = $request->input('columns')[$orderColumnIndex]['data'];
+        $orderDir = $request->input('order')[0]['dir'];
+
+        
+        if ($search) {
+            $q = '%'.$search.'%';
+            $query = Role::where('name', 'ilike', $q)->orderBy($orderColumn, $orderDir);
+            $roles = $query->offset($start)->limit($length)->get();
+            $filtered = $query->count();
+        } else {
+            $roles = Role::orderBy($orderColumn, $orderDir)->offset($start)->limit($length)->get();
+            $filtered = $total;
+        }
+
+        foreach ($roles as $role) {
+            $data[] = [
+                'id' => $role->id,
+                'name' => $role->name,
+            ];
+        }
+        return response()->json([
+            'search' => $search,
+            'draw' => $draw,
+            'recordsTotal' => $total,
+            'recordsFiltered' => $filtered,
+            'data' => $data
+        ]);
     }
 }

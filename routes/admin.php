@@ -18,6 +18,7 @@ Route::get('/', 'Admin\\DashboardController@index')->name('admin.dashboard');
 /* Ajax */
 Route::group(['as'=>'admin.api.', 'prefix' => 'api'], function(){
     Route::get('/users-index', 'Admin\\UserController@datatablesIndex')->name('users.index');
+    Route::get('/roles-index', 'Admin\\RoleController@datatablesIndex')->name('roles.index');
 });
 
 Route::group(['as'=>'admin.'],function(){
