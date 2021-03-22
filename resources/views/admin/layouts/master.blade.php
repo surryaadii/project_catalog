@@ -14,6 +14,7 @@
   <meta name="author" content="Dashboard">
   <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
   <meta name="token" content="{{csrf_token()}}">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <title>AdminLTE 2 | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->

@@ -23,7 +23,7 @@
                 <div class="box">   
                     <div class="box-body">
                         <div class="table-responsive p-0">
-                            <table class="table table-hover table-bordered table-striped" id="table-product" data-api="{{ route('admin.api.users.index') }}">
+                            <table class="table table-hover table-bordered table-striped" id="table-product" data-api="{{ route('api.admin.users.index') }}">
                                 <thead>
                                     <tr>
                                         <th> Nama </th>

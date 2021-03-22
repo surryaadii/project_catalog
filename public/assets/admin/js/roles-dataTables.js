@@ -1,6 +1,7 @@
 $(document).ready(function() {
     var table = $('#table-product');
     var api = table.data('api');
+    let token = getCookie('auth_token')
     table.DataTable({
         pageLength: 10,
         processing: true,
@@ -22,6 +23,10 @@ $(document).ready(function() {
         ],
         ajax: {
             "url"  : api, 
+            "headers": { 
+                'Authorization': `Bearer ${token}` ,
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             // "data" : function (d) {
             //         d.filter_periode = $('#filter_periode').val();
             // }

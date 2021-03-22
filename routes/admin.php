@@ -13,15 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'Admin\\DashboardController@index')->name('admin.dashboard');
-
-/* Ajax */
-Route::group(['as'=>'admin.api.', 'prefix' => 'api'], function(){
-    Route::get('/users-index', 'Admin\\UserController@datatablesIndex')->name('users.index');
-    Route::get('/roles-index', 'Admin\\RoleController@datatablesIndex')->name('roles.index');
-});
-
-Route::group(['as'=>'admin.'],function(){
+Route::group(['as'=>'admin.', 'prefix'=>'admin'],function(){
+    Route::get('/login', 'Auth\\Admin\\AuthController@index')->name('login')->middleware('admin.auth');
+    Route::get('/', 'Admin\\DashboardController@index')->name('dashboard');
     Route::resource('users', 'Admin\\UserController');
     Route::resource('roles', 'Admin\\RoleController');
 });

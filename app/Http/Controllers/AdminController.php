@@ -10,11 +10,11 @@ class AdminController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('admin');
-        $this->middleware(function ($request, $next) {
-            $this->user = \Auth::user();
-            return $next($request);
-        });
+        $this->middleware('admin');
+        // $this->middleware(function ($request, $next) {
+        //     $this->user = \Auth::user();
+        //     return $next($request);
+        // });
     }
 
     public function adminMenu() {

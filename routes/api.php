@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+/* Admin Api */
+Route::group(['as'=>'api.admin.', 'prefix' => 'v1/admin'], function(){
+    Route::post('/login', 'Api\\Admin\\AuthController@login')->name('login');
+    Route::middleware('jwt.auth')->group(function () {
+        Route::get('/users-index', 'Api\\Admin\\UserController@datatablesIndex')->name('users.index');
+        Route::get('/roles-index', 'Api\\Admin\\RoleController@datatablesIndex')->name('roles.index');
+    });
+});
