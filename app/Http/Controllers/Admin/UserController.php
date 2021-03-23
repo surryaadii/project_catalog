@@ -5,11 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AdminController;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class UserController extends AdminController
 {
+    public $listRole;
+
+    public function __construct()
+    {
+        $this->listRole = User::listRole();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +25,6 @@ class UserController extends AdminController
      */
     public function index()
     {
-        //
         return view('admin.user.index');
     }
 
@@ -28,7 +35,9 @@ class UserController extends AdminController
      */
     public function create()
     {
-        //
+        $model = new User;
+        $roles = $this->listRole;
+        return view('admin.user.create', compact('model', 'roles'));
     }
 
     /**
@@ -50,7 +59,9 @@ class UserController extends AdminController
      */
     public function edit($id)
     {
-        //
+        $model = User::findOrFail($id);
+        $roles = $this->listRole;
+        return view('admin.user.edit', compact('model', 'roles'));
     }
 
     /**

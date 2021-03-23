@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::group(['as'=>'admin.', 'prefix'=>'admin'],function(){
     Route::get('/login', 'Auth\\Admin\\AuthController@index')->name('login')->middleware('admin.auth');
     Route::get('/', 'Admin\\DashboardController@index')->name('dashboard');
-    Route::resource('users', 'Admin\\UserController');
-    Route::resource('roles', 'Admin\\RoleController');
+    Route::resource('users', 'Admin\\UserController')->only(['index', 'create', 'edit']);
+    Route::resource('roles', 'Admin\\RoleController')->only(['index', 'create', 'edit']);
 });

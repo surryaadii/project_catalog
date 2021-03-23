@@ -14,6 +14,8 @@ class AuthController extends Controller
     {
         $status = false;
         $sTime = microtime(true);
+        $isAllowed = false;
+        $user = null;
         try {
         
             $reqData = [
@@ -24,6 +26,7 @@ class AuthController extends Controller
             if( !$token = JWTAuth::attempt($reqData) ) {
                 return response()->json(['error' => 'Invalid Credentials'], 401);
             }
+            $user = JWTAuth::setToken($token)->toUser();
             $status = true;
         } catch (JWTException $e) {
             return response()->json(['error' => 'Something went wrong please try again.'], 500);
@@ -34,6 +37,7 @@ class AuthController extends Controller
             'message' => 'success',
             'data' => [
                 'token'=> $token,
+                'isAllowed' => $user && $user->isAdmin ?? $user->isAdmin
             ],
             'time' => microtime(true)-$sTime
         ]);

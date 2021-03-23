@@ -45,6 +45,10 @@ class ApiRequest extends FormRequest
         ]);*/
     }
 
+    public function getSegmentFromEnd($position_from_end = 1) {
+        $segments = $this->segments();
+        return $segments[sizeof($segments) - $position_from_end];
+    }
 
     public function validator(){
 

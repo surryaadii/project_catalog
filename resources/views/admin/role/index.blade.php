@@ -21,7 +21,7 @@
                 <div class="box">   
                     <div class="box-body">
                         <div class="table-responsive p-0">
-                            <table class="table table-hover table-bordered table-striped" id="table-product" data-api="{{ route('api.admin.roles.index') }}">
+                            <table class="table table-hover table-bordered table-striped" id="table-product" data-api="{{ route('api.admin.roles.index') }}" data-route="{{ route('admin.roles.index') }}">
                                 <thead>
                                     <tr>
                                         <th> Nama Roles </th>

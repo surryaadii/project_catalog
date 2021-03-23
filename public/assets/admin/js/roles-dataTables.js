@@ -1,6 +1,7 @@
 $(document).ready(function() {
     var table = $('#table-product');
     var api = table.data('api');
+    var route = table.data('route')
     let token = getCookie('auth_token')
     table.DataTable({
         pageLength: 10,
@@ -36,8 +37,8 @@ $(document).ready(function() {
             {
                 "data": null,
                 "render": function render(data, type, full, meta) {
-                    var btnEdit = '<a href="' + '/roles/' + full.id + '/edit' + '" class="btn btn-sm btn-info"><i class="fa fa-file"></i></a> ';
-                    var btnDelete = '<a href="' + '/roles/' + full.id + '" class="btn btn-sm btn-danger btn-delete"><i class="fa fa-trash-o"></i></a>';
+                    var btnEdit = '<a href="' + route + '/' + full.id + '/edit' + '" class="btn btn-sm btn-info"><i class="fa fa-file"></i></a> ';
+                    var btnDelete = '<a href="javascript:void(0)" class="btn btn-sm btn-danger btn-delete" data-api="' + api + '/' + full.id + '"><i class="fa fa-trash-o"></i></a>';
                     return btnEdit + btnDelete;
                 },
                 "class": "col-md-1"

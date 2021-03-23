@@ -44,6 +44,8 @@
   <link rel="stylesheet" href="{{asset('assets/admin/adminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
   <link rel="stylesheet" href="{{asset('assets/admin/css/libs/jquery-confirm.css')}}">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{{ asset('assets/admin/adminLTE/plugins/iCheck/flat/blue.css')}}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -301,6 +303,8 @@
 <script src="{{asset('assets/admin/adminLTE/bower_components/fastclick/lib/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('assets/admin/adminLTE/dist/js/adminlte.min.js')}}"></script>
+<!-- iCheck -->
+<script src="{{ asset('assets/admin/adminLTE/plugins/iCheck/icheck.min.js')}}"></script>
 <!-- jquery confirm -->
 <script src="{{asset('assets/admin/js/libs/jquery-confirm.js')}}"></script>
 <script src="{{asset('assets/admin/js/scripts.js')}}"></script>

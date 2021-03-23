@@ -38,7 +38,7 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
-      <div class="div-form" data-api="{{ route('api.admin.login')}}">
+      <div class="div-form" data-api="{{ route('api.admin.login')}}" data-route="{{ route('admin.dashboard')}}">
         <div class="form-group has-feedback">
             {!! Form::text('email', '', ['class'=>'form-control', 'placeholder'=>'E-mail Address']) !!}
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -49,15 +49,15 @@
         </div>
         <div class="row">
             <div class="col-xs-8">
-            <div class="checkbox icheck">
-                <label>
-                <input type="checkbox"> Remember Me
-                </label>
-            </div>
+                <div class="checkbox icheck">
+                    <label>
+                        <input type="checkbox"> Remember Me
+                    </label>
+                </div>
             </div>
             <!-- /.col -->
             <div class="col-xs-4">
-            <button type="submit" class="btn-submit btn btn-primary btn-block btn-flat">Sign In</button>
+                <button type="submit" class="btn-submit btn btn-primary btn-block btn-flat">Sign In</button>
             </div>
         </div>
         <!-- /.col -->
@@ -74,6 +74,7 @@
 <!-- iCheck -->
 <script src="{{ asset('assets/admin/adminLTE/plugins/iCheck/icheck.min.js')}}"></script>
 <script src="{{ asset('assets/admin/js/scripts.js')}}"></script>
+<script src="{{ asset('assets/admin/js/auth.js')}}"></script>
 
 <script>
   $(function () {

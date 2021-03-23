@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\Api\UserRequest;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -14,78 +15,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    public function datatablesIndex(Request $request)
+    public function index(Request $request)
     {
         $draw = $request->input('draw');
         $start = $request->input('start');
@@ -133,5 +63,173 @@ class UserController extends Controller
             'recordsFiltered' => $filtered,
             'data' => $data
         ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(UserRequest $request)
+    {
+        \DB::beginTransaction();
+        $status = false;
+        $code = 422;
+        $message = '';
+        $sTime = microtime(true);
+        try {        
+            $model = new User;
+            
+            $data = [
+                'name' => $request->get('name'),
+                'email' => $request->get('email'),
+                'password' => bcrypt($request->get('password'))
+            ];
+            
+            
+            if ($model->fill($data) && $model->save()) {
+                $model->roles()->attach($request->get('role'));
+                \DB::commit();
+                $msg = "User Success Saved";
+                $status = true;
+                $code = 200;
+                $message = 'Success';
+            }
+        } catch (\Throwable $e) {
+            \DB::rollback();
+            $status = false;
+            $message = 'Unprocessable Entity';
+            $msg = 'User not Updated';
+        }
+
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'data' => [
+                'message'=>$msg,
+            ],
+            'time' => microtime(true) - $sTime
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UserRequest $request, $id)
+    {
+        \DB::beginTransaction();
+        $status = false;
+        $code = 422;
+        $message = '';
+        $sTime = microtime(true);
+        try {        
+            $model = User::findOrFail($id);
+
+            $data = [
+                'name' => $request->get('name'),
+                'email' => $request->get('email'),
+                'password' => bcrypt($request->get('password'))
+            ];
+
+            
+            if ($model->fill($data) && $model->save()) {
+                $model->roles()->sync($request->get('role'));
+
+                \DB::commit();
+                $msg = "User Success Saved";
+                $status = true;
+                $code = 200;
+                $message = 'Success';
+            }
+        } catch (\Throwable $e) {
+            \DB::rollback();
+            $status = false;
+            $message = 'Unprocessable Entity';
+            $msg = 'User not Updated';
+        }
+
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'data' => [
+                'message'=>$msg,
+            ],
+            'time' => microtime(true) - $sTime
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        \DB::beginTransaction();
+        $status = false;
+        $code = 422;
+        $message = '';
+        $sTime = microtime(true);
+        try {
+            $model = User::findOrFail($id);
+            $model->delete();
+            \DB::commit();
+            $msg = "User Success Deleted";
+            $status = true;
+            $code = 200;
+            $message = 'Success';
+        } catch (\Throwable $th) {
+            \DB::rollback();
+            $status = false;
+            $message = 'Unprocessable Entity';
+            $msg = 'User not Deleted';
+        }
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'data' => [
+                'message'=>$msg,
+            ],
+            'time' => microtime(true) - $sTime
+        ]);
+
     }
 }

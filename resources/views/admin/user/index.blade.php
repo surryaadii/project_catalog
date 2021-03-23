@@ -1,14 +1,12 @@
 @extends('admin.layouts.master')
 
-
-
 @section('contents')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
         Users
-        <small><a href="{!! url('admin/users') !!}"><i class="fa fa-plus"></i></a></small>
+        <small><a href="{!! route('admin.users.create') !!}"><i class="fa fa-plus"></i></a></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{!! route('admin.dashboard') !!}"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -23,7 +21,7 @@
                 <div class="box">   
                     <div class="box-body">
                         <div class="table-responsive p-0">
-                            <table class="table table-hover table-bordered table-striped" id="table-product" data-api="{{ route('api.admin.users.index') }}">
+                            <table class="table table-hover table-bordered table-striped" id="table-product" data-api="{{ route('api.admin.users.index') }}" data-route="{{ route('admin.users.index') }}">
                                 <thead>
                                     <tr>
                                         <th> Nama </th>
