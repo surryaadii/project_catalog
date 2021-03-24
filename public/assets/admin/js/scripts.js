@@ -70,8 +70,8 @@ function sentAJax(func) {
             func(res, routeHref, xhr.status)
         },
         error:function(res){
-            func(res, '', res.status)
-            if(!urlApiDelete) {
+            func(res.responseJSON, '', res.status)
+            if(!urlApiDelete && res.responseJSON.hasOwnProperty('errors')) {
                 let errors = res.responseJSON.errors
                 let nameArray = [];
                 for (let j = 0; j < getFormData.length; j++) {
@@ -132,7 +132,7 @@ function alertMessage(title, content, icon, reloadPage=false) {
         opacity: 0.5,
         buttons: {
             confirm: function () {
-                location.reload() 
+                if(reloadPage) location.reload() 
             },
         }
     });

@@ -9,6 +9,13 @@ use App\Models\Role;
 
 class RoleController extends AdminController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->listRole = User::listRole();
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +34,8 @@ class RoleController extends AdminController
      */
     public function create()
     {
-        //
+        $model = new Role;
+        return view('admin.role.create', compact('model'));
     }
 
     /**
@@ -49,6 +57,7 @@ class RoleController extends AdminController
      */
     public function edit($id)
     {
-        //
+        $model = Role::findOrFail($id);
+        return view('admin.role.edit', compact('model'));
     }
 }

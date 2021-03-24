@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\Api\RoleRequest;
 use App\Models\Role;
 
 class RoleController extends Controller
@@ -69,9 +70,41 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        //
+        \DB::beginTransaction();
+        $status = false;
+        $code = 422;
+        $message = '';
+        $sTime = microtime(true);
+        try {        
+            $model = new Role;
+            
+            $data = [
+                'name' => $request->get('name'),
+            ];
+            if ($model->fill($data) && $model->save()) {
+                \DB::commit();
+                $msg = "Role Success Saved";
+                $status = true;
+                $code = 200;
+                $message = 'Success';
+            }
+        } catch (\Throwable $e) {
+            \DB::rollback();
+            $status = false;
+            $message = 'Unprocessable Entity';
+            $msg = 'Role not Updated';
+        }
+
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'data' => [
+                'message'=>$msg,
+            ],
+            'time' => microtime(true) - $sTime
+        ], $code);
     }
 
     /**
@@ -103,9 +136,45 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RoleRequest $request, $id)
     {
-        //
+        \DB::beginTransaction();
+        $status = false;
+        $code = 422;
+        $message = '';
+        $sTime = microtime(true);
+        try {        
+            $model = Role::findOrFail($id);
+
+            $data = [
+                'name' => $request->get('name'),
+                'email' => $request->get('email'),
+                'password' => bcrypt($request->get('password'))
+            ];
+
+            
+            if ($model->fill($data) && $model->save()) {
+                \DB::commit();
+                $msg = "Role Success Saved";
+                $status = true;
+                $code = 200;
+                $message = 'Success';
+            }
+        } catch (\Throwable $e) {
+            \DB::rollback();
+            $status = false;
+            $message = 'Unprocessable Entity';
+            $msg = 'Role not Updated';
+        }
+
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'data' => [
+                'message'=>$msg,
+            ],
+            'time' => microtime(true) - $sTime
+        ]);
     }
 
     /**
@@ -116,6 +185,32 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        \DB::beginTransaction();
+        $status = false;
+        $code = 422;
+        $message = '';
+        $sTime = microtime(true);
+        try {
+            $model = Role::findOrFail($id);
+            $model->delete();
+            \DB::commit();
+            $msg = "Role Success Deleted";
+            $status = true;
+            $code = 200;
+            $message = 'Success';
+        } catch (\Throwable $th) {
+            \DB::rollback();
+            $status = false;
+            $message = 'Unprocessable Entity';
+            $msg = 'Role not Deleted';
+        }
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'data' => [
+                'message'=>$msg,
+            ],
+            'time' => microtime(true) - $sTime
+        ], $code);
     }
 }

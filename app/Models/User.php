@@ -3,13 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable implements JWTSubject
+class User extends BaseModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, JWTSubject
 {
-    use Notifiable;
+    use Authenticatable, CanResetPassword, Authorizable, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -44,6 +50,12 @@ class User extends Authenticatable implements JWTSubject
         $isAdmin = false;
         if(in_array(1, $rolesIds)) $isAdmin = true;
         return $isAdmin;
+    }
+
+    public function __construct()
+    {
+        // required for soft deleted action
+        parent::__construct();
     }
 
 

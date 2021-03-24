@@ -73,7 +73,7 @@ class Handler extends ExceptionHandler
             }
             ///dd($exception);
             // normal 404 view page feedback
-            return response()->view('errors.404', [], 404);
+            // return response()->view('errors.404', [], 404);
         }
     
 

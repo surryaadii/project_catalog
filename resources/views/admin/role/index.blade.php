@@ -6,7 +6,7 @@
     <section class="content-header">
       <h1>
         Roles
-        <small><a href="{!! url('admin/roles') !!}"><i class="fa fa-plus"></i></a></small>
+        <small><a href="{!! route('admin.roles.create') !!}"><i class="fa fa-plus"></i></a></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{!! route('admin.dashboard') !!}"><i class="fa fa-dashboard"></i> Home</a></li>

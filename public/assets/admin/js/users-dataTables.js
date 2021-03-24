@@ -52,7 +52,7 @@ jQuery(function($) {
             { "orderable": false, "targets": [2,4] }
         ],
         order: [[ 3, "desc" ]]
-        });
+    });
         
     //filter berdasarkan Nama Product
     // $('.filter-name').keyup(function () {
@@ -71,8 +71,14 @@ jQuery(function($) {
     //     table.draw();
     // });
 
+    
     var oTable = $('#table-product').DataTable();
-
+    
+    // function get data datatables
+    // $(document).on('click', 'a.btn-delete', function (e) {
+    //     var data = oTable.row( $(this).parents('tr') ).data();
+    //     console.log(data)
+    // })
 
     $('div.dataTables_filter input').off('keyup.DT input.DT');
  

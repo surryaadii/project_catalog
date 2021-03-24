@@ -17,7 +17,6 @@ class RoleTableSeeder extends Seeder
         foreach($roles as $role) {
             $model = new Role();
             $model->name = $role;
-            $model->timestamps = false;
             $model->save();
         }
     }

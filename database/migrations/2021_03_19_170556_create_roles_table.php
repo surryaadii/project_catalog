@@ -23,6 +23,7 @@ class CreateRolesTable extends Migration
         $schema->create('roles', function($table) {
             $table->smallIncrements('id');
             $table->string('name');
+            $table->addLogColumns();
         });
 
     }
