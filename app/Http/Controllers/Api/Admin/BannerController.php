@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\UserRequest;
-use App\Models\User;
-use Carbon\Carbon;
+use App\Http\Requests\Api\BannerRequest;
+use App\Models\Banner;
 
-class UserController extends Controller
+class BannerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +19,7 @@ class UserController extends Controller
         $draw = $request->input('draw');
         $start = $request->input('start');
         $length = $request->input('length');
-        $total = User::count();
+        $total = Banner::count();
         $filtered = 0;
         $data = [];
         $search = $request->input('search')['value'];
@@ -28,34 +27,27 @@ class UserController extends Controller
         $orderColumnIndex = $request->input('order')[0]['column'];
         $orderColumn = $request->input('columns')[$orderColumnIndex]['data'];
         $orderDir = $request->input('order')[0]['dir'];
+
         
         if ($search) {
             $q = '%'.$search.'%';
-            $query = User::whereHas('roles', function ($query) use ($q) {
-                $query->where('name', 'ilike', $q)
-                      ->orWhere('email', 'ilike', $q)
-                      ->orWhere('roles.name', 'ilike', $q);
-            })->orderBy($orderColumn, $orderDir);
-            $users = $query->offset($start)->limit($length)->get();
+            $query = Banner::where('name', 'ilike', $q)->orderBy($orderColumn, $orderDir);
+            $banners = $query->offset($start)->limit($length)->get();
             $filtered = $query->count();
         } else {
-            $users = User::orderBy($orderColumn, $orderDir)->offset($start)->limit($length)->get();
+            $banners = Banner::orderBy($orderColumn, $orderDir)->offset($start)->limit($length)->get();
             $filtered = $total;
         }
 
-        foreach ($users as $user) {
-            $user_roles = [];
-            foreach ($user->roles as $role) {
-                $user_roles[] = $role->name;
-            }
+        foreach ($banners as $banner) {
             $data[] = [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'roles' => $user_roles,
-                'created_at' => Carbon::parse($user->created_at)->toDateTimeString(),
+                'id' => $banner->id,
+                'key' => $banner->key,
+                'banner_page' => $banner->banner_page,
+                'created_at' => $banner->created_at
             ];
         }
+
         return response()->json([
             'search' => $search,
             'draw' => $draw,
@@ -81,7 +73,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(BannerRequest $request)
     {
         \DB::beginTransaction();
         $status = false;
@@ -89,19 +81,15 @@ class UserController extends Controller
         $message = '';
         $sTime = microtime(true);
         try {        
-            $model = new User;
-            
+            $model = new Banner;
+            $key = join('_', explode(' ', $request->get('banner_page')));
             $data = [
-                'name' => $request->get('name'),
-                'email' => $request->get('email'),
-                'password' => bcrypt($request->get('password'))
+                'key' => $key,
+                'banner_page' => $request->get('banner_page'),
             ];
-            
-            
             if ($model->fill($data) && $model->save()) {
-                $model->roles()->attach($request->get('role'));
                 \DB::commit();
-                $msg = "User Success Created";
+                $msg = "Banner Success Saved";
                 $status = true;
                 $code = 200;
                 $message = 'Success';
@@ -110,7 +98,7 @@ class UserController extends Controller
             \DB::rollback();
             $status = false;
             $message = 'Unprocessable Entity';
-            $msg = 'User not Created';
+            $msg = 'Banner not Created';
         }
 
         return response()->json([
@@ -152,7 +140,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(BannerRequest $request, $id)
     {
         \DB::beginTransaction();
         $status = false;
@@ -160,20 +148,15 @@ class UserController extends Controller
         $message = '';
         $sTime = microtime(true);
         try {        
-            $model = User::findOrFail($id);
-
+            $model = Banner::findOrFail($id);
+            $key = join('_', explode(' ', $request->get('banner_page')));
             $data = [
-                'name' => $request->get('name'),
-                'email' => $request->get('email'),
-                'password' => bcrypt($request->get('password'))
+                'key' => $key,
+                'banner_page' => $request->get('banner_page'),
             ];
-
-            
             if ($model->fill($data) && $model->save()) {
-                $model->roles()->sync($request->get('role'));
-
                 \DB::commit();
-                $msg = "User Success Saved";
+                $msg = "Banner Success Saved";
                 $status = true;
                 $code = 200;
                 $message = 'Success';
@@ -182,7 +165,7 @@ class UserController extends Controller
             \DB::rollback();
             $status = false;
             $message = 'Unprocessable Entity';
-            $msg = 'User not Updated';
+            $msg = 'Banner not Created';
         }
 
         return response()->json([
@@ -192,7 +175,7 @@ class UserController extends Controller
                 'message'=>$msg,
             ],
             'time' => microtime(true) - $sTime
-        ]);
+        ], $code);
     }
 
     /**
@@ -209,10 +192,10 @@ class UserController extends Controller
         $message = '';
         $sTime = microtime(true);
         try {
-            $model = User::findOrFail($id);
+            $model = Banner::findOrFail($id);
             $model->delete();
             \DB::commit();
-            $msg = "User Success Deleted";
+            $msg = "Banner Success Deleted";
             $status = true;
             $code = 200;
             $message = 'Success';
@@ -220,7 +203,7 @@ class UserController extends Controller
             \DB::rollback();
             $status = false;
             $message = 'Unprocessable Entity';
-            $msg = 'User not Deleted';
+            $msg = 'Banner not Deleted';
         }
         return response()->json([
             'status' => $status,
@@ -229,7 +212,6 @@ class UserController extends Controller
                 'message'=>$msg,
             ],
             'time' => microtime(true) - $sTime
-        ]);
-
+        ], $code);
     }
 }

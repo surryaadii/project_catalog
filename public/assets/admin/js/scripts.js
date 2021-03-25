@@ -36,18 +36,25 @@ function sentAJax(func) {
         urlApiDelete = true
     }
 
-    let arr = [];
-    let foundArrayName = false;
+    let obj = {};
     for (let i = 0; i < getFormData.length; i++) {
+        let foundArrayName = false;
         const el = getFormData[i];
+        if( $(el).attr('disabled') ) continue
         let inputName = el.name
         const inputVal = el.value
         if(inputName.indexOf('[]') > -1) {
             foundArrayName = true
             inputName = el.name.split('[]')[0]
-            if(el.checked) arr.push(inputVal)
+            if(el.checked) {
+                let arr = []
+                let arrInput = Object.keys(obj).indexOf(inputName) > -1 ? obj[inputName] : []
+                arr.push(inputVal)
+                arrInput.push(inputVal)
+                obj = {...obj, [inputName]: arrInput.length ? arrInput : arr}
+            }
         }
-        objData = {...objData, [inputName]: foundArrayName ? arr : inputVal }
+        objData = {...objData, [inputName]: foundArrayName ? obj[inputName] : inputVal }
     }
 
     if(getFormErr.length) {
@@ -59,7 +66,7 @@ function sentAJax(func) {
     }
 
     return $.ajax({
-        method:dataMethod ? dataMethod : 'POST',
+        method: dataMethod ? dataMethod : 'POST',
         url: urlApi,
         data: objData,
         headers: {
@@ -73,15 +80,29 @@ function sentAJax(func) {
             func(res.responseJSON, '', res.status)
             if(!urlApiDelete && res.responseJSON.hasOwnProperty('errors')) {
                 let errors = res.responseJSON.errors
-                let nameArray = [];
+                let nameObj = {};
+                let tempNameObj = {}
+                let searchNameArray = $('.div-form').find("input[name*='[]']")
+                for (let p = 0; p < searchNameArray.length; p++) {
+                    const elem = searchNameArray[p];
+                    if(Object.keys(tempNameObj).indexOf(elem.name) > -1) {
+                        let count = tempNameObj[elem.name]
+                        tempNameObj = {...tempNameObj, [elem.name]: count+1}
+                    } else {
+                        tempNameObj = {...tempNameObj, [elem.name]: 0}
+                    }
+                }
                 for (let j = 0; j < getFormData.length; j++) {
                     const ele = getFormData[j];
                     Object.entries(errors).forEach(([key, val]) => {
                         if(ele.name == key || ele.name.indexOf(`${key}[]`) > -1) {
-                            if(nameArray.indexOf(`${ele.name}`) < 0 && ele.name.indexOf(`${key}[]`) > -1) { 
-                                nameArray.push(`${ele.name}`) 
-                                return 
+                            if(Object.keys(nameObj).indexOf(`${ele.name}`) > -1 && ele.name.indexOf(`${key}[]`) > -1) { 
+                                cnt = nameObj[ele.name]
+                                nameObj = {...nameObj, [ele.name]: cnt+1}
+                            } else if(Object.keys(nameObj).indexOf(`${ele.name}`) < 0) {
+                                nameObj = {...nameObj, [ele.name]: 0}
                             }
+                            if(ele.name.indexOf(`${key}[]`) > -1 && nameObj[ele.name] != tempNameObj[ele.name]) return
                             const parentEle = $(ele).parent()
                             parentEle.addClass('has-error')
                             parentEle.append(`<span class="help-block">${val[0]}</span>`)
@@ -94,15 +115,19 @@ function sentAJax(func) {
 }
 
 function eraseInput() {
-    let getFormData = $('.div-form input')
-    for (let i = 0; i < getFormData.length; i++) {
-        const el = getFormData[i];
-        if(el.name.indexOf(`[]`) > -1) {
-            $(el).prop('checked',false);
-            console.log($(el))
-            continue;
+    let segment = getSegmentUrl()
+    let checkSegmentCreate = segment == 'create' ? true : false
+    if(checkSegmentCreate) {
+        let getFormData = $('.div-form input')
+        for (let i = 0; i < getFormData.length; i++) {
+            const el = getFormData[i];
+            if(el.name.indexOf(`[]`) > -1) {
+                $(el).prop('checked',false);
+                console.log($(el))
+                continue;
+            }
+            $(el).val('')
         }
-        $(el).val('')
     }
 
 }
@@ -118,12 +143,21 @@ function onSubmitAjax(func) {
             sentAJax(func)
         }
     })
+}
 
+// getSegmentUrl
+function getSegmentUrl() {
+    let str = window.location.href;
+    str = str.split("/");
 
+    let segment = str[str.length - 1]
+    return segment
 }
 
 //popup alert success or error
 function alertMessage(title, content, icon, reloadPage=false) {
+    let segment = getSegmentUrl()
+    let checkSegmentCreate = segment == 'create' ? true : false
     $.confirm({
         title: title,
         content: content,
@@ -132,18 +166,19 @@ function alertMessage(title, content, icon, reloadPage=false) {
         opacity: 0.5,
         buttons: {
             confirm: function () {
-                if(reloadPage) location.reload() 
+                if(reloadPage || !checkSegmentCreate) location.reload() 
             },
         }
     });
 }
 
 jQuery(function($) {
-    $('.form-checkbox').iCheck({
-        checkboxClass: 'icheckbox_flat-blue',
-        radioClass: 'iradio_flat-blue',
-        increaseArea: '20%' /* optional */
-      });
+    // $('.form-checkbox').iCheck({
+    //     checkboxClass: 'icheckbox_flat-blue',
+    //     radioClass: 'iradio_flat-blue',
+    //     increaseArea: '20%', /* optional */
+    //     insert: '<div class="form-group"></div>'
+    //   });
 
 })
 // pop up alert delete

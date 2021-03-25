@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends BaseModel
+class Banner extends BaseModel
 {
     public $timestamps = false;
     //
     protected $fillable = [
-        'name'
+        'key', 'banner_page'
     ];
 }

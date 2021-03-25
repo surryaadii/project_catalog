@@ -18,4 +18,5 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin'],function(){
     Route::get('/', 'Admin\\DashboardController@index')->name('dashboard');
     Route::resource('users', 'Admin\\UserController')->only(['index', 'create', 'edit']);
     Route::resource('roles', 'Admin\\RoleController')->only(['index', 'create', 'edit']);
+    Route::resource('banners', 'Admin\\BannerController')->only(['index', 'create', 'edit']);
 });

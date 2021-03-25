@@ -24,5 +24,6 @@ Route::group(['as'=>'api.admin.', 'prefix' => 'v1/admin'], function(){
     Route::middleware('jwt.auth')->group(function () {
         Route::apiResource('users', 'Api\\Admin\\UserController');
         Route::apiResource('roles', 'Api\\Admin\\RoleController'); 
+        Route::apiResource('banner', 'Api\\Admin\\BannerController'); 
     });
 });

@@ -85,7 +85,7 @@ class RoleController extends Controller
             ];
             if ($model->fill($data) && $model->save()) {
                 \DB::commit();
-                $msg = "Role Success Saved";
+                $msg = "Role Success Created";
                 $status = true;
                 $code = 200;
                 $message = 'Success';
@@ -94,7 +94,7 @@ class RoleController extends Controller
             \DB::rollback();
             $status = false;
             $message = 'Unprocessable Entity';
-            $msg = 'Role not Updated';
+            $msg = 'Role not Created';
         }
 
         return response()->json([

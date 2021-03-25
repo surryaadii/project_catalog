@@ -8,14 +8,13 @@ use App\Observers\LogObserver;
 /**
  * App\Models\BaseModel
  *
- * @mixin \Model
- * @mixin Sluggable
+ * @mixin Model
  */
-class BaseModel extends \Eloquent
+class BaseModel extends Model
 {
-    public function __construct()
+    public function __construct(array $attributes = [])
     {
-        parent::__construct();
+        parent::__construct($attributes);
         if( $this->timestamps )
             $this->fillable = array_merge($this->fillable, $this->logCol());
     }

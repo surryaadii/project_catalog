@@ -1,0 +1,11 @@
+.dropzone .dz-preview .dz-error-message {
+    top: 150px !important;
+}
+
+.dropzone .dz-preview .dz-retry {
+    padding-right: 35px;
+}
+
+.page-title {
+    text-align: center;
+}

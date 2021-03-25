@@ -17,6 +17,8 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
 {
     use Authenticatable, CanResetPassword, Authorizable, Notifiable;
 
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -52,11 +54,11 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizableCon
         return $isAdmin;
     }
 
-    public function __construct()
-    {
-        // required for soft deleted action
-        parent::__construct();
-    }
+    // public function __construct()
+    // {
+    //     // required for soft deleted action
+    //     parent::__construct();
+    // }
 
 
     /**

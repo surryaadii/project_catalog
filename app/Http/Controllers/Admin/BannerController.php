@@ -5,16 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
-use App\Models\Role;
+use App\Models\Banner;
 
-class RoleController extends AdminController
+class BannerController extends AdminController
 {
-
     public function __construct()
     {
         parent::__construct();
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -22,8 +21,7 @@ class RoleController extends AdminController
      */
     public function index()
     {
-        //
-        return view('admin.role.index');
+        return view('admin.banner.index');
     }
 
     /**
@@ -33,19 +31,8 @@ class RoleController extends AdminController
      */
     public function create()
     {
-        $model = new Role;
-        return view('admin.role.create', compact('model'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $model = new Banner;
+        return view('admin.banner.create', compact('model'));
     }
 
     /**
@@ -56,7 +43,7 @@ class RoleController extends AdminController
      */
     public function edit($id)
     {
-        $model = Role::findOrFail($id);
-        return view('admin.role.edit', compact('model'));
+        $model = Banner::findOrFail($id);
+        return view('admin.banner.edit', compact('model'));
     }
 }

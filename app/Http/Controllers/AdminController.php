@@ -51,6 +51,24 @@ class AdminController extends Controller
                     ],
                 ]
             ],
+            'Settings' => [
+                'url' => 'javascript:void(0)',
+                'title' => 'Settings',
+                'icon' => '<i class="fa fa-cog"></i>',
+                'controller' => [
+                    'App\Http\Controllers\Admin\BannerController',
+                ],
+                'action' => [
+                    'admin.banners.index','admin.banners.create','admin.banners.edit',
+                ],
+                'submenu' => [
+                    [
+                        'url' => route('admin.banners.index'),
+                        'title' => 'Banners',
+                        'action' => ['admin.banners.index','admin.banners.create','admin.banners.edit'],
+                    ],
+                ]
+            ],
         ];
         return $adminMenus;
     }
