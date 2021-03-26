@@ -166,7 +166,7 @@ function alertMessage(title, content, icon, reloadPage=false) {
         opacity: 0.5,
         buttons: {
             confirm: function () {
-                if(reloadPage || !checkSegmentCreate) location.reload() 
+                if(reloadPage || checkSegmentCreate) location.reload() 
             },
         }
     });
@@ -206,7 +206,9 @@ $(document).on('click', 'a.btn-delete', function (e) {
                             'Authorization': token ? `Bearer ${token}` : '',
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },success:function(res, textStatus, xhr) {
-                            alertMessage(res.message, res.data.message, 'fa fa-check-circle', true)
+                            alertMessage(res.message, res.data.message, 'fa fa-check-circle')
+                            var oTable = $(table).DataTable()
+                            oTable.ajax.reload()
                         },
                         error:function(res){}
                     })

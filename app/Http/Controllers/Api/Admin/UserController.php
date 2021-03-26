@@ -32,12 +32,12 @@ class UserController extends Controller
         if ($search) {
             $q = '%'.$search.'%';
             $query = User::whereHas('roles', function ($query) use ($q) {
-                $query->where('name', 'ilike', $q)
-                      ->orWhere('email', 'ilike', $q)
+                $query->where('users.name', 'ilike', $q)
+                      ->orWhere('users.email', 'ilike', $q)
                       ->orWhere('roles.name', 'ilike', $q);
             })->orderBy($orderColumn, $orderDir);
-            $users = $query->offset($start)->limit($length)->get();
             $filtered = $query->count();
+            $users = $query->offset($start)->limit($length)->get();
         } else {
             $users = User::orderBy($orderColumn, $orderDir)->offset($start)->limit($length)->get();
             $filtered = $total;

@@ -1,5 +1,6 @@
+var table
 jQuery(function($) {
-    var table = $('#table-product');
+    table = $('#data-table');
     var api = table.data('api');
     var route = table.data('route')
     let token = getCookie('auth_token')
@@ -34,9 +35,8 @@ jQuery(function($) {
             // }
         },
         columns: [
-            {"data":"name"},
-            {"data":"email"},
-            {"data":"roles"},
+            {"data":"key"},
+            {"data":"banner_page"},
             {"data":"created_at"},
             {
                 "data": null,
@@ -49,9 +49,9 @@ jQuery(function($) {
             }
         ],
         columnDefs : [
-            { "orderable": false, "targets": [2,4] }
+            { "orderable": false, "targets": [0,3] }
         ],
-        order: [[ 3, "desc" ]]
+        order: [[ 2, "desc" ]]
     });
         
     //filter berdasarkan Nama Product
@@ -72,7 +72,7 @@ jQuery(function($) {
     // });
 
     
-    var oTable = $('#table-product').DataTable();
+    var oTable = $('#data-table').DataTable();
     
     // function get data datatables
     // $(document).on('click', 'a.btn-delete', function (e) {

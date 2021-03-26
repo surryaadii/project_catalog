@@ -21,7 +21,7 @@
                 <div class="box">   
                     <div class="box-body">
                         <div class="table-responsive p-0">
-                            <table class="table table-hover table-bordered table-striped" id="table-product" data-api="{{ route('api.admin.roles.index') }}" data-route="{{ route('admin.roles.index') }}">
+                            <table class="table table-hover table-bordered table-striped" id="data-table" data-api="{{ route('api.admin.roles.index') }}" data-route="{{ route('admin.roles.index') }}">
                                 <thead>
                                     <tr>
                                         <th> Nama Roles </th>
@@ -43,7 +43,7 @@
 @section('scripts')
 <script src="{{asset('assets/admin/adminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/admin/adminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-<script src="{{asset('assets/admin/js/roles-dataTables.js')}}"></script>
+<script src="{{asset('assets/admin/js/roles.index.js')}}"></script>
 <script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>

@@ -20,7 +20,8 @@
             </button>
             </div>
         </div>
-
-        @include('admin.banner.partials.asset')
+        @if($model->exists)
+            @include('admin.banner.partials.asset', compact($model))
+        @endif
     </div> 
 </div>

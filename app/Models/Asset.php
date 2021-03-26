@@ -3,11 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Config;
 
 class Asset extends BaseModel
 {
     public $timestamps = false;
-    
+
+    protected $fillable = [
+        'name', 'extension', 'mime_type', 'size'
+    ];
+
     public function url($size='') {
         list($date, $time) = explode(' ', $this->created_at);
         list($year, $month, $day) = explode('-', $date);
@@ -24,12 +29,18 @@ class Asset extends BaseModel
         return storage_path( sprintf("app/public/uploads/%s", $timestamp) );
     }
 
+    public function create_path($created_at, $id) {
+        $time = strtotime( $created_at );
+        $path = sprintf('public/uploads/%s/%02d', date('Y/m/d', $time), $id);
+        return $path;
+    }
+
     public function generate($size, $width, $height) {
         $size = ( $size ) ? $size . "-" : $size;
         $path = $this->path();
         $src = sprintf("%s/%s", $path, $this->name);
         $dst = sprintf("%s/%s%s", $path, $size, $this->name);
-        $im = Image::make($src);
+        $im = \Image::make($src);
 
         list ($w, $h) = getimagesize($src);
         

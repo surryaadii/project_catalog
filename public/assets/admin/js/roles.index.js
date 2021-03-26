@@ -1,5 +1,6 @@
-jQuery(function($) {
-    var table = $('#table-product');
+var table
+$(document).ready(function() {
+    table = $('#data-table');
     var api = table.data('api');
     var route = table.data('route')
     let token = getCookie('auth_token')
@@ -14,7 +15,6 @@ jQuery(function($) {
                     colvisRestore: "Reset Kolom" //lael untuk reset kolom ke default
                 }
         },
-        searchDelay: 1000,
         
         buttons : [
                     {extend: 'colvis', postfixButtons: [ 'colvisRestore' ] },
@@ -24,7 +24,7 @@ jQuery(function($) {
                     {extend:'print',title: 'Contoh Print Datatables'},
         ],
         ajax: {
-            "url"  : api,
+            "url"  : api, 
             "headers": { 
                 'Authorization': `Bearer ${token}` ,
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -34,9 +34,7 @@ jQuery(function($) {
             // }
         },
         columns: [
-            {"data":"key"},
-            {"data":"banner_page"},
-            {"data":"created_at"},
+            {"data":"name"},
             {
                 "data": null,
                 "render": function render(data, type, full, meta) {
@@ -48,10 +46,9 @@ jQuery(function($) {
             }
         ],
         columnDefs : [
-            { "orderable": false, "targets": [0,3] }
+            {"orderable": false, "targets" : 1}
         ],
-        order: [[ 2, "desc" ]]
-    });
+        });
         
     //filter berdasarkan Nama Product
     // $('.filter-name').keyup(function () {
@@ -70,14 +67,8 @@ jQuery(function($) {
     //     table.draw();
     // });
 
-    
-    var oTable = $('#table-product').DataTable();
-    
-    // function get data datatables
-    // $(document).on('click', 'a.btn-delete', function (e) {
-    //     var data = oTable.row( $(this).parents('tr') ).data();
-    //     console.log(data)
-    // })
+    var oTable = $('#data-table').DataTable();
+
 
     $('div.dataTables_filter input').off('keyup.DT input.DT');
  

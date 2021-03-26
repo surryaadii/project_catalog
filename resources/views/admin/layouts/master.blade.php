@@ -46,6 +46,8 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
   <!-- iCheck -->
   <link rel="stylesheet" href="{{ asset('assets/admin/adminLTE/plugins/iCheck/flat/blue.css')}}">
+  <!-- fancy box -->
+  <link rel="stylesheet" href="{{ asset('assets/admin/css/libs/jquery.fancybox.min.css')}}">
 
   <link rel="stylesheet" href="{{ asset('assets/admin/css/admin.css')}}">
 
@@ -312,6 +314,8 @@
 <script src="{{ asset('assets/admin/adminLTE/plugins/iCheck/icheck.min.js')}}"></script>
 <!-- jquery confirm -->
 <script src="{{asset('assets/admin/js/libs/jquery-confirm.js')}}"></script>
+<!-- fancybox -->
+<script src="{{asset('assets/admin/js/libs/jquery.fancybox.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/scripts.js')}}"></script>
 
 

@@ -1,5 +1,6 @@
-$(document).ready(function() {
-    var table = $('#table-product');
+var table 
+jQuery(function($) {
+    table = $('#data-table');
     var api = table.data('api');
     var route = table.data('route')
     let token = getCookie('auth_token')
@@ -14,6 +15,7 @@ $(document).ready(function() {
                     colvisRestore: "Reset Kolom" //lael untuk reset kolom ke default
                 }
         },
+        searchDelay: 1000,
         
         buttons : [
                     {extend: 'colvis', postfixButtons: [ 'colvisRestore' ] },
@@ -23,7 +25,7 @@ $(document).ready(function() {
                     {extend:'print',title: 'Contoh Print Datatables'},
         ],
         ajax: {
-            "url"  : api, 
+            "url"  : api,
             "headers": { 
                 'Authorization': `Bearer ${token}` ,
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -34,6 +36,9 @@ $(document).ready(function() {
         },
         columns: [
             {"data":"name"},
+            {"data":"email"},
+            {"data":"roles"},
+            {"data":"created_at"},
             {
                 "data": null,
                 "render": function render(data, type, full, meta) {
@@ -45,9 +50,10 @@ $(document).ready(function() {
             }
         ],
         columnDefs : [
-            {"orderable": false, "targets" : 1}
+            { "orderable": false, "targets": [2,4] }
         ],
-        });
+        order: [[ 3, "desc" ]]
+    });
         
     //filter berdasarkan Nama Product
     // $('.filter-name').keyup(function () {
@@ -66,8 +72,14 @@ $(document).ready(function() {
     //     table.draw();
     // });
 
-    var oTable = $('#table-product').DataTable();
-
+    
+    var oTable = $('#data-table').DataTable();
+    
+    // function get data datatables
+    // $(document).on('click', 'a.btn-delete', function (e) {
+    //     var data = oTable.row( $(this).parents('tr') ).data();
+    //     console.log(data)
+    // })
 
     $('div.dataTables_filter input').off('keyup.DT input.DT');
  

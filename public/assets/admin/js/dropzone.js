@@ -1,5 +1,3 @@
-var total_counter = 0;
-
 Dropzone.autoDiscover = false
 $(document).ready(function () {
     let myDropzone = { 
@@ -10,6 +8,7 @@ $(document).ready(function () {
         // addRemoveLinks: true,
         // dictRemoveFile: 'Remove file',
         // dictRemoveFileConfirmation:  "Are you sure you want to delete this file?",
+        acceptedFiles: 'image/*',
         dictFileTooBig: 'File is larger than 16MB',
         timeout: 10000,
         headers: {
@@ -39,6 +38,10 @@ $(document).ready(function () {
                     $(file.previewElement).find('.dz-delete').remove()
                 })
             })
+            var oTable = $(table).DataTable()
+            this.on('queuecomplete', function(file) {
+                oTable.ajax.reload()
+              });
         },
         success: function (file, $request) {
             console.log(file)

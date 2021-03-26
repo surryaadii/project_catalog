@@ -11,4 +11,9 @@ class Banner extends BaseModel
     protected $fillable = [
         'key', 'banner_page'
     ];
+
+    public function assets()
+    {
+        return $this->belongsToMany(Asset::class, 'banner_assets');
+    }
 }

@@ -15,6 +15,11 @@ return [
     |
     */
 
-    'driver' => 'gd'
+    'driver' => 'gd',
+
+    'sizes' => [
+        'thumb' => [300, 300],
+        'large' => [1200, 600]
+    ]
 
 ];

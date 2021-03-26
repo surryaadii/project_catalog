@@ -10,7 +10,7 @@
     </div><!-- /.col -->
 </div><!-- /.row -->
 
-<form method="post" action="{{ url('/upload-file/') }}" enctype="multipart/form-data" class="dropzone well" id="my-dropzone">
+<form method="post" action="{{ route('api.admin.banner.store_assets', $model->getKey()) }}" enctype="multipart/form-data" class="dropzone well" id="my-dropzone">
     {{ csrf_field() }}
     {{-- <input type="text" name="current_id" value="{{$customer->id}}" class="hidden"> --}}
     <!-- <input type="text" name="current_model" value="customer" class="hidden"> -->
@@ -65,16 +65,18 @@
 </form>
 
 <div class="col-lg-12">
-    <table id="dynamic-table-upload" class="table table-striped table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>File Name</th>
-                <th>File Size</th>
-                <th>uploaded Time</th>
-                <th></th>
-            </tr>
-        </thead>
-    </table>
+    <div class="table-responsive p-0">
+        <table id="data-table" class="table table-striped table-bordered table-hover" data-api-download="{{ route('api.admin.asset.download')}}" data-api="{{ route('api.admin.banner.assets.index', $model->getKey())}}">
+            <thead>
+                <tr>
+                    <th>File Name</th>
+                    <th>Image</th>
+                    <th>File Size</th>
+                    <th>Uploaded Time</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 <!-- PAGE CONTENT ENDS -->

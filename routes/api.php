@@ -25,5 +25,9 @@ Route::group(['as'=>'api.admin.', 'prefix' => 'v1/admin'], function(){
         Route::apiResource('users', 'Api\\Admin\\UserController');
         Route::apiResource('roles', 'Api\\Admin\\RoleController'); 
         Route::apiResource('banner', 'Api\\Admin\\BannerController'); 
+        Route::post('/banner/{id}/store-assets', 'Api\\Admin\\BannerController@addAssets')->name('banner.store_assets');
+        Route::get('/banner/{id}/assets', 'Api\\Admin\\BannerController@indexBannerAssets')->name('banner.assets.index');
+        Route::delete('/banner/{id}/assets/{asset_id}', 'Api\\Admin\\BannerController@deleteAssetBanner')->name('banner.assets.delete');
+        Route::post('/asset/download', 'Api\\Admin\\AssetController@downloadAsset')->name('asset.download');
     });
 });

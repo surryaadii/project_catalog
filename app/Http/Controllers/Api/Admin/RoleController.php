@@ -32,8 +32,8 @@ class RoleController extends Controller
         if ($search) {
             $q = '%'.$search.'%';
             $query = Role::where('name', 'ilike', $q)->orderBy($orderColumn, $orderDir);
-            $roles = $query->offset($start)->limit($length)->get();
             $filtered = $query->count();
+            $roles = $query->offset($start)->limit($length)->get();
         } else {
             $roles = Role::orderBy($orderColumn, $orderDir)->offset($start)->limit($length)->get();
             $filtered = $total;
