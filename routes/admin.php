@@ -19,4 +19,6 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin'],function(){
     Route::resource('users', 'Admin\\UserController')->only(['index', 'create', 'edit']);
     Route::resource('roles', 'Admin\\RoleController')->only(['index', 'create', 'edit']);
     Route::resource('banners', 'Admin\\BannerController')->only(['index', 'create', 'edit']);
+    Route::resource('categories', 'Admin\\CategoryController')->only(['index', 'create', 'edit']);
+    // Route::resource('sub-categories', 'Admin\\SubCategoryController')->only(['index', 'create', 'edit']);
 });

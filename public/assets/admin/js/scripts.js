@@ -46,7 +46,7 @@ function sentAJax(func) {
         if(inputName.indexOf('[]') > -1) {
             foundArrayName = true
             inputName = el.name.split('[]')[0]
-            if(el.checked) {
+            if(el.checked || (el.type == 'text' && inputVal !== '' )) {
                 let arr = []
                 let arrInput = Object.keys(obj).indexOf(inputName) > -1 ? obj[inputName] : []
                 arr.push(inputVal)
@@ -170,6 +170,28 @@ function alertMessage(title, content, icon, reloadPage=false) {
             },
         }
     });
+}
+
+function addNewInputFieldText(nameInput, placeholder) {
+    let max_fields      = 10; //maximum input boxes allowed
+    let wrapper         = $(".add-input-wrapper"); //Fields wrapper
+    let add_button      = $(".add-btn-input"); //Add button ID
+
+    let x = 1; //initlal text box count
+    $(add_button).on('click', function(e){ //on add input button click
+        let labelInput = ``
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+            if(x == 1) labelInput = `<label for="${nameInput}">Sub Category Name</label>`
+            $(wrapper).append(`${labelInput}<div class="form-group input-group"><input class="form-control" placeholder="${placeholder}" name="${nameInput}" type="text" id="${nameInput + '-' + x}"></input><span class="input-group-addon"><a href="#" class="remove_field">Remove</a></span></div>`); //add input box
+            x++; //text box increment
+        }
+    });
+
+    $(wrapper).on("click",".remove_field", function(e){ 
+        console.log($(this).parent('div'))
+        e.preventDefault(); $(this).parent().parent('div').remove(); x--;
+    })
 }
 
 jQuery(function($) {

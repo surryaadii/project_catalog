@@ -24,6 +24,8 @@ Route::group(['as'=>'api.admin.', 'prefix' => 'v1/admin'], function(){
     Route::middleware('jwt.auth')->group(function () {
         Route::apiResource('users', 'Api\\Admin\\UserController');
         Route::apiResource('roles', 'Api\\Admin\\RoleController'); 
+        Route::apiResource('categories', 'Api\\Admin\\CategoryController'); 
+        // Route::apiResource('sub-categories', 'Api\\Admin\\SubCategoryController'); 
         Route::apiResource('banner', 'Api\\Admin\\BannerController'); 
         Route::post('/banner/{id}/store-assets', 'Api\\Admin\\BannerController@addAssets')->name('banner.store_assets');
         Route::get('/banner/{id}/assets', 'Api\\Admin\\BannerController@indexBannerAssets')->name('banner.assets.index');

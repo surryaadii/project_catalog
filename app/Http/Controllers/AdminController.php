@@ -51,6 +51,26 @@ class AdminController extends Controller
                     ],
                 ]
             ],
+            'Category' => [
+                'url' => 'javascript:void(0)',
+                'title' => 'Category',
+                'icon' => '<i class="fa fa-list"></i>',
+                'controller' => [
+                    'App\Http\Controllers\Admin\CategoryController',
+                    'App\Http\Controllers\Admin\SubCategoryController',
+                ],
+                'action' => [
+                    'admin.categories.index','admin.categories.create','admin.categories.edit',
+                    'admin.sub-categories.index','admin.sub-categories.create','admin.sub-categories.edit',
+                ],
+                'submenu' => [
+                    [
+                        'url' => route('admin.categories.index'),
+                        'title' => 'Categories',
+                        'action' => ['admin.categories.index','admin.categories.create','admin.categories.edit'],
+                    ],
+                ]
+            ],
             'Settings' => [
                 'url' => 'javascript:void(0)',
                 'title' => 'Settings',
