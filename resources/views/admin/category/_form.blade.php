@@ -6,22 +6,26 @@
         <div class="div-form" data-api="{{ route('api.admin.categories.store')}}" data-route="{{ route('admin.categories.index')}}" data-method="POST">
         @endif
         @if($model->exists)
-            <div class="box box-success collapsed-box">
+            <div class="box box-success expanded-box">
                 <div class="box-header with-border">
                     <h3 class="box-title">List Of Sub Category</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                         </div>
                     <!-- /.box-tools -->
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
+                <div class="box-body" id="list-sub-category">
                     <ul>
-                        @foreach($model->childrenRecursive as $child)
-                            <li>
-                                {{$child->name}}
-                            </li>
-                        @endforeach
+                        @if(count($model->childrenRecursive) > 0)
+                            @foreach($model->childrenRecursive as $child)
+                                <li>
+                                    {{$child->name}}
+                                </li>
+                            @endforeach
+                        @else
+                            <p>No Sub Category</p>
+                        @endif
                     </ul>
                 </div>
                 <!-- /.box-body -->
@@ -41,13 +45,13 @@
             </div>  
             <div class="form-group">
                 {{ Form::label('description', 'Description') }}
-                {{ Form::text('description', $model->description ,array('class' => 'form-control', 'placeholder'=>'Description')) }}
+                {{ Form::textarea('description', $model->description ,array('class' => 'form-control', 'placeholder'=>'Description')) }}
             </div>
             <div class="form-group">
-            <button class="btn btn-submit btn-primary" type="submit">
-                <i class="fa fa-save"></i>
-                Submit
-            </button>
+                <button class="btn btn-submit btn-primary" type="submit">
+                    <i class="fa fa-save"></i>
+                    Submit
+                </button>
             </div>
         </div>
     </div> 

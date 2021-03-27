@@ -9,3 +9,12 @@
 .page-title {
     text-align: center;
 }
+
+.box-body #list-sub-category {
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.box-body #list-sub-category ul > li {
+    list-style-type: decimal;
+}

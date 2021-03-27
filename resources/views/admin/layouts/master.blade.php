@@ -1,5 +1,6 @@
 @inject('superMan', 'App\Http\Controllers\AdminController')
 <?php 
+  $user = $superMan->userLoggedIn();
   $adminMenu = $superMan->adminMenu();
   $currentController = $superMan->currentController();
   $currentAction = $superMan->currentAction();
@@ -48,6 +49,8 @@
   <link rel="stylesheet" href="{{ asset('assets/admin/adminLTE/plugins/iCheck/flat/blue.css')}}">
   <!-- fancy box -->
   <link rel="stylesheet" href="{{ asset('assets/admin/css/libs/jquery.fancybox.min.css')}}">
+  <!-- select2 -->
+  <link rel="stylesheet" href="{{asset('assets/admin/adminLTE/bower_components/select2/dist/css/select2.min.css')}}">
 
   <link rel="stylesheet" href="{{ asset('assets/admin/css/admin.css')}}">
 
@@ -68,7 +71,7 @@
 <div class="wrapper">
 
   <!-- topbar menu -->
-  @include('admin.layouts.top-bar')
+  @include('admin.layouts.top-bar', compact('user'))
 
   <!-- Left side column. contains the logo and sidebar -->
   
@@ -316,6 +319,8 @@
 <script src="{{asset('assets/admin/js/libs/jquery-confirm.js')}}"></script>
 <!-- fancybox -->
 <script src="{{asset('assets/admin/js/libs/jquery.fancybox.min.js')}}"></script>
+<!-- select2 -->
+<script src="{{asset('assets/admin/adminLTE/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/scripts.js')}}"></script>
 
 

@@ -25,5 +25,9 @@ class Category extends BaseModel
     public function childrenRecursive()
     {
         return $this->children()->with('childrenRecursive');
-     }
+    }
+
+    public function products() {
+        return $this->hasManyThrough(Product::class, Category::class, 'parent_id', 'category_id', 'id');
+    }
 }

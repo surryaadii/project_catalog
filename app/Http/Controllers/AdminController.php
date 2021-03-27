@@ -17,6 +17,16 @@ class AdminController extends Controller
         // });
     }
 
+    public function userLoggedIn()
+    {
+        $user = '';
+        $cookie = \Cookie::get('auth_token');
+        if ($cookie) {
+            $user = \JWTAuth::setToken($cookie)->authenticate();
+        }
+        return $user;
+    }
+
     public function adminMenu() {
         $adminMenus = [
             'Dashboard' => [
@@ -25,6 +35,31 @@ class AdminController extends Controller
                 'icon' => '<i class="fa fa-dashboard"></i>',
                 'controller' => ['App\Http\Controllers\Admin\DashboardController'],
                 'action' => ['admin.dashboard'],
+            ],
+            'Products' => [
+                'url' => route('admin.products.index'),
+                'title' => 'Products',
+                'icon' => '<i class="fa fa-archive"></i>',
+                'controller' => ['App\Http\Controllers\Admin\ProductController'],
+                'action' => ['admin.products.index'],
+            ],
+            'Category' => [
+                'url' => 'javascript:void(0)',
+                'title' => 'Category',
+                'icon' => '<i class="fa fa-list"></i>',
+                'controller' => [
+                    'App\Http\Controllers\Admin\CategoryController',
+                ],
+                'action' => [
+                    'admin.categories.index','admin.categories.create','admin.categories.edit',
+                ],
+                'submenu' => [
+                    [
+                        'url' => route('admin.categories.index'),
+                        'title' => 'Categories',
+                        'action' => ['admin.categories.index','admin.categories.create','admin.categories.edit'],
+                    ],
+                ]
             ],
             'Accounts' => [
                 'url' => 'javascript:void(0)',
@@ -48,26 +83,6 @@ class AdminController extends Controller
                         'url' => route('admin.users.index'),
                         'title' => 'Users',
                         'action' => ['admin.users.index','admin.users.create','admin.users.edit'],
-                    ],
-                ]
-            ],
-            'Category' => [
-                'url' => 'javascript:void(0)',
-                'title' => 'Category',
-                'icon' => '<i class="fa fa-list"></i>',
-                'controller' => [
-                    'App\Http\Controllers\Admin\CategoryController',
-                    'App\Http\Controllers\Admin\SubCategoryController',
-                ],
-                'action' => [
-                    'admin.categories.index','admin.categories.create','admin.categories.edit',
-                    'admin.sub-categories.index','admin.sub-categories.create','admin.sub-categories.edit',
-                ],
-                'submenu' => [
-                    [
-                        'url' => route('admin.categories.index'),
-                        'title' => 'Categories',
-                        'action' => ['admin.categories.index','admin.categories.create','admin.categories.edit'],
                     ],
                 ]
             ],

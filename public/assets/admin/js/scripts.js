@@ -26,7 +26,7 @@ function sentAJax(func) {
     let routeHref = $('.div-form').attr('data-route')
     let urlApi = $('.div-form').attr('data-api')
     let dataMethod = $('.div-form').attr('data-method')
-    let getFormData = $('.div-form input')
+    let getFormData = $('.div-form input, .div-form textarea, .div-form select')
     let getFormErr = $('.div-form .has-error .help-block')
     let token = getCookie('auth_token')
     let objData = {}
@@ -46,7 +46,7 @@ function sentAJax(func) {
         if(inputName.indexOf('[]') > -1) {
             foundArrayName = true
             inputName = el.name.split('[]')[0]
-            if(el.checked || (el.type == 'text' && inputVal !== '' )) {
+            if(el.checked || ( (el.type == 'text' || el.type == 'textarea') && inputVal !== '' )) {
                 let arr = []
                 let arrInput = Object.keys(obj).indexOf(inputName) > -1 ? obj[inputName] : []
                 arr.push(inputVal)

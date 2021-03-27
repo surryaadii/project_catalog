@@ -19,7 +19,7 @@ class CategoryController extends Controller
         $draw = $request->input('draw');
         $start = $request->input('start');
         $length = $request->input('length');
-        $total = Category::count();
+        $total = Category::whereNull('parent_id')->count();
         $filtered = 0;
         $data = [];
         $search = $request->input('search')['value'];
@@ -31,11 +31,11 @@ class CategoryController extends Controller
         
         if ($search) {
             $q = '%'.$search.'%';
-            $query = Category::where('name', 'ilike', $q)->orderBy($orderColumn, $orderDir);
+            $query = Category::whereNull('parent_id')->where('name', 'ilike', $q)->orderBy($orderColumn, $orderDir);
             $filtered = $query->count();
             $categories = $query->offset($start)->limit($length)->get();
         } else {
-            $categories = Category::orderBy($orderColumn, $orderDir)->offset($start)->limit($length)->get();
+            $categories = Category::whereNull('parent_id')->orderBy($orderColumn, $orderDir)->offset($start)->limit($length)->get();
             $filtered = $total;
         }
 
@@ -43,7 +43,7 @@ class CategoryController extends Controller
             $data[] = [
                 'id' => $category->id,
                 'name' => $category->name,
-                'description' => $category->name,
+                'description' => $category->description,
                 'created_at' => $category->created_at,
             ];
         }
@@ -72,7 +72,7 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
         \DB::beginTransaction();
         $status = false;
@@ -108,28 +108,6 @@ class CategoryController extends Controller
             ],
             'time' => microtime(true) - $sTime
         ], $code);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -197,6 +175,40 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        \DB::beginTransaction();
+        $status = false;
+        $code = 422;
+        $message = '';
+        $sTime = microtime(true);
+        try {
+            $model = Category::with('childrenRecursive')->findOrFail($id);
+            $toArrayModel = $model->toArray();
+            if(count($toArrayModel['children_recursive'])) {
+                $idsChildren = [];
+                foreach ($toArrayModel['children_recursive'] as $key => $children) {
+                    $idsChildren[] = $children['id'];
+                }
+                Category::destroy($idsChildren);
+            }
+            $model->delete();
+            \DB::commit();
+            $msg = "Category Success Deleted";
+            $status = true;
+            $code = 200;
+            $message = 'Success';
+        } catch (\Throwable $th) {
+            \DB::rollback();
+            $status = false;
+            $message = 'Unprocessable Entity';
+            $msg = 'Category not Deleted';
+        }
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'data' => [
+                'message'=>$msg,
+            ],
+            'time' => microtime(true) - $sTime
+        ], $code);
     }
 }
