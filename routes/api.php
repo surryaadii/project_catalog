@@ -37,3 +37,10 @@ Route::group(['as'=>'api.admin.', 'prefix' => 'v1/admin'], function(){
         Route::post('/asset/download', 'Api\\Admin\\AssetController@downloadAsset')->name('asset.download');
     });
 });
+
+/* Frontend Api */
+
+Route::group(['as'=>'api.', 'prefix' => 'v1', 'middleware' => ['jwt.auth']], function(){
+    Route::post('/get-banner', 'Api\\Frontend\\BannerController@getBanner');
+    Route::get('/get-products', 'Api\\Frontend\\ProductController@getProducts');
+});

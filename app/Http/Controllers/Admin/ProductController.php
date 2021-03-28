@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 
-class ProductController extends Controller
+class ProductController extends AdminController
 {
     /**
      * Display a listing of the resource.

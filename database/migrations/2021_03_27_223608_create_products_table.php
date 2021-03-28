@@ -22,10 +22,11 @@ class CreateProductsTable extends Migration
 
         $schema->create('products', function($table) {
             $table->id();
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->string('name');
             $table->string('description');
             $table->string('slug')->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
             $table->addLogColumns();
         });
     }
