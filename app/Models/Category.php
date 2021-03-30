@@ -3,13 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Category extends BaseModel
 {
+    use sluggable;
+
     public $timestamps = false;
     //
     protected $fillable = [
-        'name', 'parent_id', 'description'
+        'name', 'parent_id', 'description', 'slug'
     ];
 
     public function parent()
@@ -35,5 +38,13 @@ class Category extends BaseModel
     public function subProducts()
     {
         return $this->hasManyThrough(Product::class, Category::class, 'parent_id', 'category_id', 'id');
+    }
+
+    public function sluggable() {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
     }
 }

@@ -43,6 +43,7 @@ class CategoryController extends Controller
             $data[] = [
                 'id' => $category->id,
                 'name' => $category->name,
+                'slug' => $category->slug,
                 'description' => $category->description,
                 'created_at' => $category->created_at,
             ];

@@ -118,12 +118,11 @@ function eraseInput() {
     let segment = getSegmentUrl()
     let checkSegmentCreate = segment == 'create' ? true : false
     if(checkSegmentCreate) {
-        let getFormData = $('.div-form input')
+        let getFormData = $('.div-form input', '.div-form textarea')
         for (let i = 0; i < getFormData.length; i++) {
             const el = getFormData[i];
             if(el.name.indexOf(`[]`) > -1) {
                 $(el).prop('checked',false);
-                console.log($(el))
                 continue;
             }
             $(el).val('')
@@ -167,6 +166,13 @@ function alertMessage(title, content, icon, reloadPage=false) {
         buttons: {
             confirm: function () {
                 if(reloadPage || checkSegmentCreate) location.reload() 
+            },
+            specialKey: {
+                isHidden: true,
+                keys: ['enter'],
+                action: function(){
+                    if(reloadPage || checkSegmentCreate) location.reload()
+                }
             },
         }
     });
