@@ -33,11 +33,11 @@ class ProductController extends Controller
         
         if ($search) {
             $q = '%'.$search.'%';
-            $query = Product::where('name', 'ilike', $q)->orderBy($orderColumn, $orderDir);
+            $query = Product::whereTranslation('name', 'ilike', $q)->orderByTranslation($orderColumn, $orderDir);
             $filtered = $query->count();
             $products = $query->offset($start)->limit($length)->get();
         } else {
-            $products = Product::orderBy($orderColumn, $orderDir)->offset($start)->limit($length)->get();
+            $products = Product::orderByTranslation($orderColumn, $orderDir)->offset($start)->limit($length)->get();
             $filtered = $total;
         }
 
@@ -85,10 +85,12 @@ class ProductController extends Controller
             $model = new Product;
             
             $data = [
-                'name' => $request->get('name'),
-                'description' => $request->get('description'),
                 'category_id' => $request->get('category_id')
             ];
+            foreach (config('translatable.locales') as $locale) {
+                $data[$locale]['name'] = $request->get($locale. '_name');
+                $data[$locale]['description'] = $request->get($locale. '_description');
+            }
             if ($model->fill($data) && $model->save()) {
                 \DB::commit();
                 $msg = "Product Success Created";
@@ -151,12 +153,13 @@ class ProductController extends Controller
         $sTime = microtime(true);
         try {        
             $model = Product::findOrfail($id);
-            
             $data = [
-                'name' => $request->get('name'),
-                'description' => $request->get('description'),
                 'category_id' => $request->get('category_id')
             ];
+            foreach (config('translatable.locales') as $locale) {
+                $data[$locale]['name'] = $request->get($locale. '_name');
+                $data[$locale]['description'] = $request->get($locale. '_description');
+            }
             if ($model->fill($data) && $model->save()) {
                 \DB::commit();
                 $msg = "Product Success Edited";

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\CategoryRequest;
 use App\Models\Category;
@@ -83,10 +84,11 @@ class CategoryController extends Controller
         try {        
             $model = new Category;
             
-            $data = [
-                'name' => $request->get('name'),
-                'description' => $request->get('description'),
-            ];
+            $data = [];
+            foreach (config('translatable.locales') as $locale) {
+                $data[$locale]['name'] = $request->get($locale. '_name');
+                $data[$locale]['description'] = $request->get($locale. '_description');
+            }
             if ($model->fill($data) && $model->save()) {
                 \DB::commit();
                 $msg = "Category Success Created";
@@ -127,23 +129,29 @@ class CategoryController extends Controller
         $sTime = microtime(true);
         try {        
             $model = Category::findOrFail($id);
-            $data = [
-                'name' => $request->get('name'),
-                'description' => $request->get('description')
-            ];
+            foreach (config('translatable.locales') as $locale) {
+                $data[$locale]['name'] = $request->get($locale. '_name');
+                $data[$locale]['description'] = $request->get($locale. '_description');
+            }
             if($model->fill($data) && $model->save()) {
-                $subCategoryNames = $request->get('sub_category_name');
-                if($subCategoryNames && count($subCategoryNames)){
-                    foreach ($subCategoryNames as $subCategoryName) {
+                $dataNewModel = [];
+                $appLocale = \App::getLocale();
+                if($request->get($appLocale .'_sub_category_name') && count($request->get($appLocale .'_sub_category_name'))) {
+                    foreach ($request->get($locale .'_sub_category_name') as $key => $val) {
                         $newModel = new Category;
+                        $dataNewModel = [];
                         $dataNewModel = [
                             'parent_id' => $model->getKey(),
-                            'name' => $subCategoryName,
                         ];
+                        foreach (config('translatable.locales') as $locale) {
+                            $dataNewModel[$locale]['name'] = $request->get($locale .'_sub_category_name')[$key];
+                        }
+                        $dataNewModel;
                         $newModel->fill($dataNewModel);
                         $newModel->save();
                     }
                 }
+                
                 \DB::commit();
                 $msg = "Category Success Edited";
                 $status = true;
@@ -151,7 +159,6 @@ class CategoryController extends Controller
                 $message = 'Success';
             }
         } catch (\Throwable $e) {
-            dd($e->getMessage());
             \DB::rollback();
             $status = false;
             $message = 'Unprocessable Entity';

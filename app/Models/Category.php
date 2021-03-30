@@ -4,15 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
 
-class Category extends BaseModel
+class Category extends BaseModel implements TranslatableContract
 {
-    use sluggable;
+    use Sluggable, Translatable;
 
     public $timestamps = false;
     //
+    public $translatedAttributes = ['name', 'description'];
     protected $fillable = [
-        'name', 'parent_id', 'description', 'slug'
+        'parent_id', 'slug'
     ];
 
     public function parent()

@@ -26,18 +26,19 @@ class CategoryRequest extends ApiRequest
         $rules = [];
         switch ($this->method()) {
             case 'POST':
-                $rules = [
-                    'name' => 'required',
-                ];
+                foreach (config('translatable.locales') as $locale) {
+                    $rules[$locale . '_name'] = 'required';
+                    $rules[$locale . '_description'] = 'required';
+                }
                 break;
             case 'PUT':
                 $id = $this->getSegmentFromEnd();
                 if( is_numeric($id) )
-                    $rules = [
-                        'name' => 'required',
-                        // 'sub_category_name' => 'present|array',
-                        'sub_category_name.*' => 'filled|max:255'
-                    ];
+                    foreach (config('translatable.locales') as $locale) {
+                        $rules[$locale . '_name'] = 'required';
+                        $rules[$locale . '_description'] = 'required';
+                        $rules[$locale . '_sub_category_name.*'] = 'filled|max:255';
+                    }
                 break;
             default:break;
         }

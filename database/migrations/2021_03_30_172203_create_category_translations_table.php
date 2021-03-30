@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Helpers\BlueprintHelper;
 
-class CreateProductsTable extends Migration
+class CreateCategoryTranslationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -20,12 +20,18 @@ class CreateProductsTable extends Migration
             return new BlueprintHelper($table, $callback);
         });
 
-        $schema->create('products', function($table) {
+        $schema->create('category_translations', function($table) {
             $table->id();
-            $table->unsignedBigInteger('category_id')->nullable();
-            $table->string('slug')->unique();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
-            $table->addLogColumns();
+            $table->string('locale')->index();
+
+            // Foreign key to the main model
+            $table->unsignedBigInteger('category_id');
+            $table->unique(['category_id', 'locale']);
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+
+            // Actual fields you want to translate
+            $table->string('name');
+            $table->text('description');
         });
     }
 
@@ -36,6 +42,6 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('category_translations');
     }
 }

@@ -322,6 +322,12 @@
 <!-- select2 -->
 <script src="{{asset('assets/admin/adminLTE/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/scripts.js')}}"></script>
+<script> 
+  // global app configuration object
+  var config = {
+      locales: {!! json_encode(config('translatable.locales')) !!},
+  };
+</script>
 
 
 @yield('scripts')

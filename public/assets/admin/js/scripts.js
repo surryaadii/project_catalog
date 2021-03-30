@@ -182,21 +182,39 @@ function addNewInputFieldText(nameInput, placeholder) {
     let max_fields      = 10; //maximum input boxes allowed
     let wrapper         = $(".add-input-wrapper"); //Fields wrapper
     let add_button      = $(".add-btn-input"); //Add button ID
+    let childFields     = $(`.add-input-wrapper #tab_createsub_${config.locale[0]}`)
 
-    let x = 1; //initlal text box count
+    let lengthChild = 0; //initial form-group count
+    let x = 0 // increment box
     $(add_button).on('click', function(e){ //on add input button click
+        lengthChild = childFields.find('.form-group').length
         let labelInput = ``
         e.preventDefault();
-        if(x < max_fields){ //max input box allowed
-            if(x == 1) labelInput = `<label for="${nameInput}">Sub Category Name</label>`
-            $(wrapper).append(`${labelInput}<div class="form-group input-group"><input class="form-control" placeholder="${placeholder}" name="${nameInput}" type="text" id="${nameInput + '-' + x}"></input><span class="input-group-addon"><a href="#" class="remove_field">Remove</a></span></div>`); //add input box
+        if(lengthChild < max_fields){ //max input box allowed
+            config.locales.forEach(locale => {
+                if(lengthChild == 0) labelInput = `<label for="${locale}_${nameInput}">Sub Category Name ( ${locale} )</label>`
+                $appendInput = `${labelInput}<div class="form-group input-group" data-increment-index="${x}"><input class="form-control" placeholder="${placeholder}" name="${locale}_${nameInput}" type="text"></input><span class="input-group-addon"><a href="#" id="${locale}_remove_filed-${x}" class="remove_field">Remove</a></span></div>` //add input box
+                $(wrapper).find(`#tab_createsub_${locale}`).append($appendInput)
+            });
+            wrapper.removeClass('hidden')
+            
             x++; //text box increment
         }
     });
 
     $(wrapper).on("click",".remove_field", function(e){ 
-        console.log($(this).parent('div'))
-        e.preventDefault(); $(this).parent().parent('div').remove(); x--;
+        let index = this.id.split('-')[1]
+        e.preventDefault(); 
+        config.locales.forEach(locale => {
+            $(wrapper).find(`[data-increment-index="${index}"]`).remove()
+            lengthChild = childFields.find('.form-group').length
+            if(lengthChild < 1) {
+                $(`[for="${locale}_${nameInput}"]`).remove()
+            }
+        });
+        if(lengthChild < 1) {
+            wrapper.addClass('hidden')
+        }
     })
 }
 

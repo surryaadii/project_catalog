@@ -5,14 +5,31 @@
         @else
         <div class="div-form" data-api="{{ route('api.admin.products.store')}}" data-route="{{ route('admin.products.index')}}" data-method="POST">
         @endif
-            <div class="form-group">
-                {{ Form::label('name', 'Product Name') }}
-                {{ Form::text('name', $model->name ,array('class' => 'form-control', 'placeholder'=>'Product Name')) }}
-            </div>  
-            <div class="form-group">
-                {{ Form::label('description', 'Product Description') }}
-                {{ Form::textarea('description', $model->description ,array('class' => 'form-control', 'placeholder'=>'Product Description')) }}
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    @foreach(config('translatable.locales') as $key => $locale)
+                        <li class="@if($key == 0) active @endif">
+                            <a href="#tab_{{$locale}}" data-toggle="tab">{{strtoupper($locale)}}</a>
+                        </li>
+                    @endforeach
+                </ul>
+                <div class="tab-content">
+                    @foreach(config('translatable.locales') as $key => $locale)
+                        <div class="tab-pane @if($key == 0) active @endif" id="tab_{{$locale}}">
+                            <div class="form-group">
+                                {!! Form::label( $locale.'_name', 'Product Name '.'('.$locale.')') !!}
+                                {{ Form::text($locale.'_name', $model->translate($locale) ? $model->translate($locale)->name : ''  ,array('class' => 'form-control', 'placeholder'=>'Product Name')) }}
+                            </div>  
+                            <div class="form-group">
+                                {{ Form::label($locale.'_description', 'Product Description '.'('.$locale.')') }}
+                                {{ Form::textarea($locale.'_description', $model->translate($locale) ? $model->translate($locale)->description : '' ,array('class' => 'form-control', 'placeholder'=>'Product Description')) }}
+                            </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                    @endforeach
+                </div>
             </div>
+
             <div class="form-group">
                 {{ Form::label('category', 'Product Category') }}
                 {{ Form::select('category_id', $dataCategories, $model->category_id, ['id'=> 'category', 'class'=>'form-control select2']) }}

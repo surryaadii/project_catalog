@@ -27,19 +27,23 @@ class ProductRequest extends ApiRequest
         switch ($this->method()) {
             case 'POST':
                 $rules = [
-                    'name' => 'required',
-                    'description' => 'required',
                     'category_id' => 'required'
                 ];
+                foreach (config('translatable.locales') as $locale) {
+                    $rules[$locale . '_name'] = 'required';
+                    $rules[$locale . '_description'] = 'required';
+                }
                 break;
             case 'PUT':
                 $id = $this->getSegmentFromEnd();
-                if( is_numeric($id) )
+                if( is_numeric($id) ) 
                     $rules = [
-                        'name' => 'required',
-                        'description' => 'required',
                         'category_id' => 'required'
                     ];
+                    foreach (config('translatable.locales') as $locale) {
+                        $rules[$locale . '_name'] = 'required';
+                        $rules[$locale . '_description'] = 'required';
+                    }
                 break;
             default:break;
         }

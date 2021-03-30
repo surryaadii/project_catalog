@@ -16,17 +16,33 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body" id="list-sub-category">
-                    <ul>
-                        @if(count($model->childrenRecursive) > 0)
-                            @foreach($model->childrenRecursive as $child)
-                                <li>
-                                    {{$child->name}}
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            @foreach(config('translatable.locales') as $key => $locale)
+                                <li class="@if($key == 0) active @endif">
+                                    <a href="#tab_list_{{$locale}}" data-toggle="tab">{{strtoupper($locale)}}</a>
                                 </li>
                             @endforeach
-                        @else
-                            <p>No Sub Category</p>
-                        @endif
-                    </ul>
+                        </ul>
+                        <div class="tab-content">
+                            @foreach(config('translatable.locales') as $key => $locale)
+                                <div class="tab-pane @if($key == 0) active @endif" id="tab_list_{{$locale}}">
+                                    <ul>
+                                        @if(count($model->childrenRecursive) > 0)
+                                            @foreach($model->childrenRecursive as $child)
+                                                <li>
+                                                    {{$child->translate($locale)->name}}
+                                                </li>
+                                            @endforeach
+                                        @else
+                                            <p>No Sub Category</p>
+                                        @endif
+                                    </ul>
+                                </div>
+                                <!-- /.tab-pane -->
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -35,17 +51,49 @@
                     <i class="fa fa-save"></i>
                     Add More Sub Category
                 </button>
-                <div class="sub-categories add-input-wrapper">
-                </div>
             </div>
+                <div class="sub-categories add-input-wrapper hidden">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            @foreach(config('translatable.locales') as $key => $locale)
+                                <li class="@if($key == 0) active @endif">
+                                    <a href="#tab_createsub_{{$locale}}" data-toggle="tab">{{strtoupper($locale)}}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content">
+                            @foreach(config('translatable.locales') as $key => $locale)    
+                                <div class="tab-pane @if($key == 0) active @endif" id="tab_createsub_{{$locale}}">
+                                </div>
+                            @endforeach
+                            <!-- /.tab-pane -->
+                        </div>
+                    </div>
+                </div>
         @endif
-            <div class="form-group">
-                {{ Form::label('name', 'Name') }}
-                {{ Form::text('name', $model->name ,array('class' => 'form-control', 'placeholder'=>'Name')) }}
-            </div>  
-            <div class="form-group">
-                {{ Form::label('description', 'Description') }}
-                {{ Form::textarea('description', $model->description ,array('class' => 'form-control', 'placeholder'=>'Description')) }}
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    @foreach(config('translatable.locales') as $key => $locale)
+                        <li class="@if($key == 0) active @endif">
+                            <a href="#tab_{{$locale}}" data-toggle="tab">{{strtoupper($locale)}}</a>
+                        </li>
+                    @endforeach
+                </ul>
+                <div class="tab-content">
+                    @foreach(config('translatable.locales') as $key => $locale)
+                        <div class="tab-pane @if($key == 0) active @endif" id="tab_{{$locale}}">
+                            <div class="form-group">
+                                {!! Form::label( $locale.'_name', 'Category Name '.'('.$locale.')') !!}
+                                {{ Form::text($locale.'_name', $model->translate($locale) ? $model->translate($locale)->name : ''  ,array('class' => 'form-control', 'placeholder'=>'Category Name')) }}
+                            </div>  
+                            <div class="form-group">
+                                {{ Form::label($locale.'_description', 'Category Description '.'('.$locale.')') }}
+                                {{ Form::textarea($locale.'_description', $model->translate($locale) ? $model->translate($locale)->description : '' ,array('class' => 'form-control', 'placeholder'=>'Category Description')) }}
+                            </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                    @endforeach
+                </div>
             </div>
             <div class="form-group">
                 <button class="btn btn-submit btn-primary" type="submit">
