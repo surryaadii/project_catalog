@@ -182,7 +182,7 @@ function addNewInputFieldText(nameInput, placeholder) {
     let max_fields      = 10; //maximum input boxes allowed
     let wrapper         = $(".add-input-wrapper"); //Fields wrapper
     let add_button      = $(".add-btn-input"); //Add button ID
-    let childFields     = $(`.add-input-wrapper #tab_createsub_${config.locale[0]}`)
+    let childFields     = $(`.add-input-wrapper #tab_createsub_${config.locales[0]}`)
 
     let lengthChild = 0; //initial form-group count
     let x = 0 // increment box
