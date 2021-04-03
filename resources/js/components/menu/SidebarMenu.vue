@@ -15,7 +15,7 @@
                         </router-link>
                     </b-nav-text>
                     <b-nav-text>
-                        <router-link :to="{ name: 'contact' }" custom v-slot="{ href, navigate, isExactActive }">
+                        <router-link :to="{ name: 'products' }" custom v-slot="{ href, navigate, isExactActive }">
                             <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="nav-link" :class="isExactActive ? 'active' : '' ">Products</a>
                         </router-link>
                     </b-nav-text>
@@ -25,7 +25,7 @@
                         </router-link>
                     </b-nav-text>
                     <b-nav-text>
-                        <router-link :to="{ name: 'about' }" custom v-slot="{ href, navigate, isExactActive }">
+                        <router-link :to="{ name: 'contact' }" custom v-slot="{ href, navigate, isExactActive }">
                             <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="nav-link" :class="isExactActive ? 'active' : '' ">Hotline Services</a>
                         </router-link>
                     </b-nav-text>
@@ -35,9 +35,10 @@
                     <div class="social-media">
                         <span>Follow Our Social Media</span>
                         <div class="social-media-icon">
-                         <span><img src="/assets/frontend/images/facebook-icon.svg" alt="facebook-img"></span> 
-                         <span><img src="/assets/frontend/images/twitter-icon.svg" alt="twitter-img"></span> 
-                         <span><img src="/assets/frontend/images/instagram-icon.svg" alt="instagram-img"></span>
+
+                         <a href="#"><img src="/assets/frontend/images/facebook-icon.svg" alt="facebook-img"></a> 
+                         <a href="#"><img src="/assets/frontend/images/twitter-icon.svg" alt="twitter-img"></a> 
+                         <a href="#"><img src="/assets/frontend/images/instagram-icon.svg" alt="instagram-img"></a>
                         </div>
                     </div>
                     <div class="copyright">

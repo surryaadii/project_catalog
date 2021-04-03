@@ -8,14 +8,33 @@
 
 // all scss
 @import 'sidebar-menu.scss';
+@import 'home-banner.scss';
 
 // Bootstrap
 // @import '~bootstrap/scss/bootstrap';
 
 
 body {
-    font-family: 'Poppins', sans-serif !important;
+    font-family: $font-family-Poppins !important;
     letter-spacing: 0.3px;
+    font-size: $font-size !important;
+}
+
+.btn {
+    border-radius: $border-radius !important;
+    margin-right: 10px;
+    color: $main-color !important;
+    font-size: $font-size !important;
+
+    &.btn-white {
+        background: #ffffff !important;
+    }
+
+    &.btn-banner {
+        padding: 15px 30px !important;
+        border: none !important;
+        font-weight: 700;
+    }
 }
 
 // #app {

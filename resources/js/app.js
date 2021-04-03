@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueInternalization from 'vue-i18n';
+import VueCookies from 'vue-cookies'
 import App from './components/App'
-import Home from './components/ExampleComponent'
+import Home from './components/layouts/Home'
+import Products from './components/layouts/Products'
 import Locale from './vue-i18n-locales.generated';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
@@ -11,6 +13,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.use(VueCookies)
 
 Vue.use(VueRouter)
 Vue.use(VueInternalization);
@@ -38,9 +41,15 @@ const router = new VueRouter({
                 {
                   path: '',
                   name: 'home',
-                  component:  { template : '<p>aaaaa</p>'},
+                  component: Home,
                   meta: ({ title: 'Home' }) 
                 },
+                {
+                    path: 'products',
+                    name: 'products',
+                    component: Products,
+                    meta: ({ title: 'Products' }) 
+                  },
                 {
                   path: 'about',
                   name: 'about',

@@ -6,11 +6,9 @@
 </template>
 
 <script>
-    import Header from './Header'
-    import SidebarMenu from './SidebarMenu.vue'
+    import Header from './menu/Header'
+    import SidebarMenu from './menu/SidebarMenu.vue'
     export default {
-
-
         components:{
             Header,
             SidebarMenu

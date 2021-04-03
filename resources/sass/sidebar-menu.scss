@@ -1,21 +1,19 @@
 .sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #866ec7;
-    color: #fff;
     -webkit-transition: all .3s;
     -o-transition: all .3s;
     transition: all .3s;
     position: relative;
     
     .sidebar-outer {
-        position: initial !important;
-        height: 100% !important;
+        // position: initial !important;
+        // height: 100% !important;
 
         .sidebar-menu {
-            position: initial;
-            width: auto; 
-            // height: 100% !important;
+            // position: initial;
+            // width: auto; 
+            width: 250px !important;
         }
     }
 
@@ -32,7 +30,7 @@
         }
         .nav-link {
             padding: 5px 30px;
-            color: #333333;
+            color: $main-color;
             font-size: 12px;
             &.active {
                 font-weight: 800;
@@ -48,7 +46,7 @@
             margin-bottom: 50px;
             .social-media-icon {
                 padding-top: 20px;
-                span{
+                a{
                     padding-top: 20px;
                     margin-right: 30px;
                 }
