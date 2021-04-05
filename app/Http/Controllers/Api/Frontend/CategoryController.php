@@ -29,13 +29,13 @@ class CategoryController extends ApiController
                             'slug' => $children['slug'],
                         ];
                     }
-                    $data[] = [
-                        'name' => $category['name'],
-                        'description' => $category['description'],
-                        'slug' => $category['slug'],
-                        'sub_categories' => $subCategories
-                    ];
                 }
+                $data[] = [
+                    'name' => $category['name'],
+                    'description' => $category['description'],
+                    'slug' => $category['slug'],
+                    'sub_categories' => $subCategories
+                ];
             }
             $message = 'Categories Success Retrieved';
         } else {

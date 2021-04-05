@@ -60,7 +60,7 @@ export default {
             }).then((res) => {
                 let data = res.data
                 if(data.status) {
-                this.bannersImg = data.values.banner
+                    self.bannersImg = data.values.banner
                 }
             })
         }

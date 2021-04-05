@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import VueInternalization from 'vue-i18n';
+import VueInternalization from 'vue-i18n'
 import VueCookies from 'vue-cookies'
+import _ from 'lodash'
 import App from './components/App'
 import Home from './components/layouts/Home'
 import Products from './components/layouts/Products'
-import Locale from './vue-i18n-locales.generated';
+import Locale from './vue-i18n-locales.generated'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
@@ -18,7 +19,6 @@ Vue.use(VueCookies)
 Vue.use(VueRouter)
 Vue.use(VueInternalization);
 
-const LocaleComponent = { render(h) { return h('router-view') }}
 const lang = document.documentElement.lang.substr(0, 2) || 'en';
 const i18n = new VueInternalization({
     locale: lang,
@@ -82,7 +82,17 @@ router.beforeEach((to, from, next) => {
     // set the current language for i18n.
     i18n.locale = language
     next()
-  });
+});
+
+Vue.mixin({
+    methods: {
+        isBlank:function (string){
+            /* filter empty string */
+
+            return (_.isEmpty(string) || _.isUndefined(string) || _.isNull(string) || string == "")
+        }
+    }
+})
 
 const app = new Vue({
     el: '#app',

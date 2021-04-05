@@ -9,6 +9,7 @@
 // all scss
 @import 'sidebar-menu.scss';
 @import 'home-banner.scss';
+@import 'products.scss';
 
 // Bootstrap
 // @import '~bootstrap/scss/bootstrap';
@@ -30,11 +31,32 @@ body {
         background: #ffffff !important;
     }
 
+    &.btn-blue {
+        background-color: $blue;
+    }
+
+    &.btn-filter {
+        padding: 5px 15px !important;
+        border: 1px solid #333333;
+        &.active {
+            background-color: $blue;
+            border-color: $blue;
+            font-weight: 700;
+            color: #ffffff !important;
+        }        
+    }
+
     &.btn-banner {
         padding: 15px 30px !important;
         border: none !important;
         font-weight: 700;
     }
+}
+
+.container {
+    max-width: 1760px !important;
+    margin: 15px !important;
+    padding: 15px !important;
 }
 
 // #app {

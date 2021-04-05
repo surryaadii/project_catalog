@@ -1,0 +1,111 @@
+.products {
+
+    .row-filter {
+        padding: 20px 20px 15px 20px;
+
+        .product-filter {
+            flex: 1;
+        }
+        .product-main-search {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            #input-search-product {
+                border: none  !important;
+                border-radius: 0;
+                color: $main-color;
+                font-size: $font-size;
+                font-weight: 700;
+                &:focus {
+                    color: $main-color;
+                    box-shadow: none;
+                    border-bottom: 1px solid #333333 !important;
+                }
+                &::placeholder {
+                    font-weight: 700;
+                    color: $main-color;
+                }
+            }
+        }
+    }
+
+
+    .product-item {
+        padding: 15px 10px !important;
+    }
+
+    .product-image {
+        margin-bottom: 10px;
+        position: relative;
+        .product-new {
+            position: absolute;
+            right: 0;
+            padding: 5px 15px;
+            border: 1px solid #333333;
+            border-radius: 12px;
+            margin-top: 10px;
+            margin-right: 10px;
+            text-transform: capitalize;
+            background: #ffffff padding-box;
+        }
+
+        img {
+            height: 203px !important;
+            border: 1px solid #707070;
+            border-radius: 12px;
+        }
+    }
+
+    .product-detail {
+        .product-title {
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .product-action {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            .product-action-icon {
+                position: relative;
+                width: 24px;
+                height: 30px;
+                margin-right: 5px;
+
+                img {
+                    position: absolute;
+                    left: -7px;
+                    top: -3px;
+                    width: 38px;
+                    height: 38px;
+                }
+            }
+
+            .product-action-link {
+                color: $blue;
+                text-decoration: underline;
+                font-weight: 700;
+            }
+        }
+    }
+
+    .pagination-products {
+        text-align: center;
+
+        .pagination-page {
+            margin: 0 5px;
+            font-weight: 700;
+        }
+
+        .pagination-icon {
+            cursor: pointer;
+            user-select: none;
+            &.disabled {
+                cursor: none;
+                pointer-events: none;
+            }
+        }
+    }
+}

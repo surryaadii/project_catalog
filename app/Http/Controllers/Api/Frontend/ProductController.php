@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Frontend;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Models\Category;
 use App\Models\Product;
 
@@ -27,14 +28,17 @@ class ProductController extends ApiController
             $start = ( ($page - 1) * $per_page );
         }
 
-        $getIdsCategory = Category::with(['childrenRecursive' => function($q) use ($request) {
+        $queryGetIdsCategory = Category::with(['childrenRecursive' => function($q) use ($request) {
             if($request->get('sub_category')) $q->where('slug', $request->get('sub_category'));
-        }])->where('slug', $request->get('category'))->get()->toArray();
+        }]);
+        if($request->get('category')) $queryGetIdsCategory->where('slug', $request->get('category'));
+        $getIdsCategory = $queryGetIdsCategory->get()->toArray();
         $idsCategory = array_column($this->flatten($getIdsCategory), 'id');
 
         $query = Product::with('category', 'assets')->whereIn('category_id', $idsCategory);
+        if($request->get('q')) $query->whereTranslationLike('name', '%'.$request->get('q').'%');
         $totalRow = $query->count();
-        $products = $query->offset($start)->limit($per_page)->get();
+        $products = $query->offset($start)->limit($per_page)->orderBy('created_at', 'DESC')->get();
 
         $data = [];
         if(count($products)) {
@@ -46,12 +50,14 @@ class ProductController extends ApiController
                         'url' => $asset->url(),
                     ];
                 }
+                $diffDays = Carbon::parse($product->created_at);
                 $data[] = [
                     'name' => $product['name'],
                     'description' => $product['description'],
                     'slug' => $product['slug'],
                     'category_name' => $product['category']['name'],
-                    'assets' => $assets
+                    'assets' => $assets,
+                    'is_new' => $diffDays->diffInDays(Carbon::now()) <= 1 ? true : false
                 ];
             }
             $summaryStart = ($per_page * ($page - 1) + 1);
