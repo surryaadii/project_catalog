@@ -8,6 +8,8 @@ import App from './components/App'
 import Home from './components/layouts/Home'
 import Products from './components/layouts/Products'
 import ProductDetail from './components/layouts/ProductDetail'
+import About from './components/layouts/About'
+import Contact from './components/layouts/Contact'
 import Locale from './vue-i18n-locales.generated'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
@@ -58,18 +60,18 @@ const router = new VueRouter({
                     path: 'products/:slug',
                     name: 'productDetail',
                     component: ProductDetail,
-                    meta: ({ title: 'Products' }) 
+                    meta: ({ title: 'Products Detail' }) 
                 },
                 {
                   path: 'about',
                   name: 'about',
-                  component: Home,
+                  component: About,
                   meta: ({ title: 'About' }) 
                 },
                 {
                   path: 'contact',
                   name: 'contact',
-                  component: { template : '<p>asd</p>'},
+                  component: Contact,
                   meta: ({ title: 'Contact' }) 
                 }
             ],

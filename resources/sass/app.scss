@@ -14,6 +14,8 @@
 @import 'home-banner.scss';
 @import 'products.scss';
 @import 'product-detail.scss';
+@import 'about.scss';
+@import 'contact-us.scss';
 
 // Bootstrap
 // @import '~bootstrap/scss/bootstrap';
@@ -23,6 +25,23 @@ body {
     font-family: $font-family-Poppins !important;
     letter-spacing: 0.3px;
     font-size: $font-size !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+
+[class*="form-"] .req {
+    font-size: 13px;
+    line-height: 1.38462;
+    color: #EB2124;
+    position: relative;
+    top: -2px;
+}
+
+h1 {
+    font-size: 16px !important;
+    font-weight: 700 !important;
 }
 
 .btn {

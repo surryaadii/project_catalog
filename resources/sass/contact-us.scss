@@ -1,0 +1,40 @@
+.contact-us-page {
+    .contact-us-title {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        h1 {
+            margin-bottom: 20px;
+        }
+    }
+
+    .contact-us-address {
+        span {
+            font-weight: 900;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+    }
+
+    .contact-us-form {
+        label {
+            font-weight: 700;
+        }
+
+        input, textarea {
+            width: 446px;
+            border-radius: 12px;
+            font-size: $font-size;
+            border: 1px solid #707070;
+
+            & {
+                height: 30px;
+            }
+        }
+
+        .invalid-feedback {
+            color: $red;
+            font-size: 10px;
+        }
+    }
+}

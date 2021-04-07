@@ -1,0 +1,27 @@
+.about-page {
+    .about-title {
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .about-image {
+        margin-bottom: 20px;
+        height: 300px;
+        display: flex;
+        img {
+            width: 100%;
+            -o-object-fit: fill;
+            object-fit: fill;
+            -o-object-position: center;
+            object-position: center;
+            border-radius: 12px;
+            border: 1px solid $grey;
+        }
+    }
+
+    .about-description {
+        p {
+            font-weight: 700;   
+        }
+    }
+}
