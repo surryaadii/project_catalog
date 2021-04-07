@@ -2,19 +2,23 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueInternalization from 'vue-i18n'
 import VueCookies from 'vue-cookies'
+import VueAgile from 'vue-agile'
 import _ from 'lodash'
 import App from './components/App'
 import Home from './components/layouts/Home'
 import Products from './components/layouts/Products'
+import ProductDetail from './components/layouts/ProductDetail'
 import Locale from './vue-i18n-locales.generated'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+Vue.use(VueAgile)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCookies)
+
 
 Vue.use(VueRouter)
 Vue.use(VueInternalization);
@@ -49,7 +53,13 @@ const router = new VueRouter({
                     name: 'products',
                     component: Products,
                     meta: ({ title: 'Products' }) 
-                  },
+                },
+                {
+                    path: 'products/:slug',
+                    name: 'productDetail',
+                    component: ProductDetail,
+                    meta: ({ title: 'Products' }) 
+                },
                 {
                   path: 'about',
                   name: 'about',

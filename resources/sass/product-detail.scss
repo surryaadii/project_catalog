@@ -1,0 +1,158 @@
+.product-detail-page {
+    .product-detail-navigation {
+        padding: 20px 0 15px 0;
+
+        a {
+            text-decoration: none;
+            color: $main-color;
+            font-weight: 700;
+            outline: 0;
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+    
+            .product-navigation-icon {
+                position: relative;
+                width: 24px;
+                height: 30px;
+                margin-right: 5px;
+
+                img {
+                    position: absolute;
+                    left: -7px;
+                    top: -3px;
+                    width: 38px;
+                    height: 38px;
+                }
+            }
+
+            .product-navigation-text {
+                color: $main-color;
+                text-decoration: none;
+                font-weight: 700;
+            }
+        }
+    }
+    .product-detail {
+        display: flex;
+        flex-wrap: wrap;
+
+        .product-detail-left {
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - (100% - 500px));
+
+            // carousel
+            .thumbnails {
+                // margin: 20px -5px 0 -5px;
+                margin: 20px auto;
+                width: calc(100% - 55px)
+              }
+              
+              .agile__nav-button {
+                background: transparent;
+                border: none;
+                color: #ccc;
+                cursor: pointer;
+                font-size: 24px;
+                transition-duration: 0.3s;
+              }
+              .thumbnails .agile__nav-button {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+              }
+              .thumbnails .agile__nav-button--prev {
+                left: -45px;
+              }
+              .thumbnails .agile__nav-button--next {
+                right: -45px;
+              }
+              .agile__nav-button:hover {
+                color: #888;
+              }
+              .agile__dot {
+                margin: 0 10px;
+              }
+              .agile__dot button {
+                background-color: #eee;
+                border: none;
+                border-radius: 50%;
+                cursor: pointer;
+                display: block;
+                height: 10px;
+                font-size: 0;
+                line-height: 0;
+                margin: 0;
+                padding: 0;
+                transition-duration: 0.3s;
+                width: 10px;
+              }
+              .agile__dot--current button, .agile__dot:hover button {
+                background-color: #888;
+              }
+              
+              .slide {
+                align-items: center;
+                box-sizing: border-box;
+                color: #fff;
+                display: flex;
+                height: 450px;
+                justify-content: center;
+              }
+              .slide--thumbnail {
+                cursor: pointer;
+                height: 100px;
+                padding: 0 5px;
+                transition: opacity 0.3s;
+              }
+              .slide--thumbnail:hover {
+                opacity: 0.75;
+              }
+              .slide img {
+                height: 100%;
+                -o-object-fit: cover;
+                   object-fit: cover;
+                -o-object-position: center;
+                   object-position: center;
+                width: 100%;
+                border: 1px solid #707070;
+                border-radius: 12px;
+              }
+        }
+
+        .product-detail-right {
+            margin-left: 30px;
+            .share-product {
+                margin-bottom: 20px;
+                span {
+                    color: $blue;
+                    font-weight: 700;
+                }
+            }
+            .product-title {
+                h1 {
+                    font-size: 16px;
+                    font-weight: 700;
+                    margin-bottom: 20px;
+                }
+            }
+
+            .product-description {
+                margin-bottom: 10px;
+
+                p {
+                    font-weight: 700;
+                    color: $black;
+                    text-transform: capitalize;
+                    margin-bottom: 10px;
+                }
+            }
+
+            .product-action {
+                text-transform: capitalize;
+            }
+        }
+    }
+}
+

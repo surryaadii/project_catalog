@@ -116,5 +116,41 @@ class ProductController extends ApiController
             }
 
             return $flatArray;
-}
+    }
+
+    public function show($slug)
+    {
+        $sTime = microtime(true);
+        $status = false;
+        $message = 'Product No Data';
+
+        $model = Product::where('slug', $slug)->first();
+
+        $data = [];
+        if($model) {
+            $assets = [];
+            foreach ($model->assets as $key => $asset) {
+                $assets[] = [
+                    'name' => $asset->name,
+                    'url' => $asset->url(),
+                ];
+            }
+            $data = [
+                'name' => $model->name,
+                'description' => $model->description,
+                'slug' => $model->slug,
+                'assets' => $assets,
+            ];
+            $message = 'Product Success Retrieved';
+            $status = true;
+        }
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'values' => [
+                'product'=>$data
+            ],
+            'time' => microtime(true)-$sTime
+        ]);
+    }
 }

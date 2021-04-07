@@ -43,5 +43,6 @@ Route::group(['as'=>'api.admin.', 'prefix' => 'v1/admin'], function(){
 Route::group(['as'=>'api.', 'prefix' => 'v1', 'middleware' => ['jwt.auth', 'localization']], function(){
     Route::post('/get-banner', 'Api\\Frontend\\BannerController@getBanner');
     Route::get('/products', 'Api\\Frontend\\ProductController@index');
+    Route::get('/product/{slug}', 'Api\\Frontend\\ProductController@show');
     Route::get('/categories', 'Api\\Frontend\\CategoryController@index');
 });

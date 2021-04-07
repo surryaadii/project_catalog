@@ -6,10 +6,14 @@
 // Variables
 @import 'variables';
 
+// import libs
+@import './libs/modal.scss';
+
 // all scss
 @import 'sidebar-menu.scss';
 @import 'home-banner.scss';
 @import 'products.scss';
+@import 'product-detail.scss';
 
 // Bootstrap
 // @import '~bootstrap/scss/bootstrap';
@@ -46,6 +50,14 @@ body {
         }        
     }
 
+    &.btn-action {
+        padding: 5px 15px !important;
+        font-weight: 700;
+        &:not(.btn-blue) {
+            border: 1px solid #333333;
+        }
+    }
+
     &.btn-banner {
         padding: 15px 30px !important;
         border: none !important;
@@ -59,9 +71,11 @@ body {
     padding: 15px !important;
 }
 
-// #app {
-//     min-width: 1366px;
-// }
+#app {
+    // min-width: 1366px;
+    background-color: #F4F4F4;
+    height: 100vh;
+}
 
 .header {
     .nav-link.active {
