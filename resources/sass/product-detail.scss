@@ -43,7 +43,7 @@
             width: calc(100% - (100% - 500px));
 
             // carousel
-            .thumbnails {
+            .product-image-thumbnails {
                 // margin: 20px -5px 0 -5px;
                 margin: 20px auto;
                 width: calc(100% - 55px)
@@ -57,15 +57,15 @@
                 font-size: 24px;
                 transition-duration: 0.3s;
               }
-              .thumbnails .agile__nav-button {
+              .product-image-thumbnails .agile__nav-button {
                 position: absolute;
                 top: 50%;
                 transform: translateY(-50%);
               }
-              .thumbnails .agile__nav-button--prev {
+              .product-image-thumbnails .agile__nav-button--prev {
                 left: -45px;
               }
-              .thumbnails .agile__nav-button--next {
+              .product-image-thumbnails .agile__nav-button--next {
                 right: -45px;
               }
               .agile__nav-button:hover {
