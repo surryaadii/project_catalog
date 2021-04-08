@@ -60,7 +60,7 @@ const router = new VueRouter({
                     path: 'products/:slug',
                     name: 'productDetail',
                     component: ProductDetail,
-                    meta: ({ title: 'Products Detail' }) 
+                    meta: ({ title: 'Products Detail' })
                 },
                 {
                   path: 'about',
@@ -102,6 +102,14 @@ Vue.mixin({
             /* filter empty string */
 
             return (_.isEmpty(string) || _.isUndefined(string) || _.isNull(string) || string == "")
+        },
+        validateEmail:function(email){
+            let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        },
+        validatePhone: function(phone) {
+            let re = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/
+            return re.test(phone)
         }
     }
 })

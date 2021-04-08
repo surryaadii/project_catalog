@@ -41,8 +41,10 @@
                     <span>{{ productDetail.description }}</span>
                 </div>
                 <div class="product-action">
-                    <a href="" class="btn btn-blue btn-action text-white">order this product</a>
-                    <a href="" class="btn btn-white btn-action">ask about this product</a>
+                    <router-link :to="{ name: 'contact' }" custom v-slot="{ href, navigate }">
+                        <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-blue btn-action text-white">order this product</a>
+                    </router-link>
+                    <a href="javascript:void(0)" class="btn btn-white btn-action">ask about this product</a>
                 </div>
             </div>
         </div>
@@ -58,16 +60,6 @@ export default {
             token: '',
             productDetail: [],
             assets: [],
-            slides: [
-					'https://images.unsplash.com/photo-1453831362806-3d5577f014a4?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-					'https://images.unsplash.com/photo-1496412705862-e0088f16f791?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-					'https://images.unsplash.com/photo-1506354666786-959d6d497f1a?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-					'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-					'https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-					'https://images.unsplash.com/photo-1472926373053-51b220987527?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-					'https://images.unsplash.com/photo-1497534547324-0ebb3f052e88?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ',
-                    'http://localhost:8000/storage/uploads/2021/04/07/05/Thumbnail BTG Web Tarakan (1).jpg'
-				],
             asNavFor1: [],
 			asNavFor2: [],
             options1: {
@@ -105,13 +97,9 @@ export default {
         this.token = this.$cookies.get('auth_token')
         this.getProductDetails()
     },
-    mounted() {
-        console.log(this.$refs)
-    },
     methods: {
         getProductDetails: function() {
             let self = this
-            console.log(self.$route.path);
             self.slug = self.$route.params.slug
             axios({
                 method: 'GET',
@@ -123,7 +111,6 @@ export default {
                 let data = res.data
                 if(data.status) {
                     self.productDetail = data.values.product
-                    let asssets = [];
                     for (let index = 0; index < self.productDetail.assets.length; index++) {
                         const assetProducts = self.productDetail.assets[index];
                         self.assets.push(assetProducts.url)

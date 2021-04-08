@@ -10,8 +10,8 @@ class ApiController extends Controller
 
     public function __construct()
     {
-        if (\JWTAuth::getToken()) {
-            $this->user = \JWTAuth::parseToken()->authenticate();
-        }
+        // if (\JWTAuth::getToken()) {
+        //     $this->user = \JWTAuth::parseToken()->authenticate();
+        // }
     }
 }
