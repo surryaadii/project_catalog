@@ -4,7 +4,7 @@
             <template #header="{}">
                 <router-link :to="{ name: 'home' }" custom v-slot="{ href, navigate, isExactActive }">
                     <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="logo-link" :class="isExactActive ? 'active' : '' ">
-                        <img src="https://picsum.photos/134/30/?image=52" alt="">
+                        <img src="/assets/frontend/images/logo.svg" alt="">
                     </a>
                 </router-link>
             </template>
@@ -32,6 +32,18 @@
             </b-nav>
             <template #footer="{}">
                 <div>
+                    <b-form-group class="mr-4">
+                        <b-form-select v-model="selectLanguage" class="mb-1" @change="changeLanguage">
+                        <!-- This slot appears above the options from 'options' prop -->
+                            <template #first>
+                                <b-form-select-option :value="null" disabled>-- Please select an option --</b-form-select-option>
+                            </template>
+
+                            <!-- These options will appear after the ones from 'options' prop -->
+                            <b-form-select-option value="id">Indonesian</b-form-select-option>
+                            <b-form-select-option value="en">English</b-form-select-option>
+                        </b-form-select>
+                    </b-form-group>
                     <div class="social-media">
                         <span>Follow Our Social Media</span>
                         <div class="social-media-icon">
@@ -59,17 +71,25 @@ export default {
     data() {
         return {
             isOpenSidebarMenu: true,
-            noCloseOnRouteChange: true
+            noCloseOnRouteChange: true,
+            selectLanguage: 'en',
         }
     },
 
     mounted() {
         window.addEventListener("resize", this.getWindowWidth);
         this.getWindowWidth()
-
+        this.selectLanguage = this.$cookies.get('lang') ? this.$cookies.get('lang') : 'en'
     },
 
     methods: {
+        changeLanguage:function() {
+            let self = this
+            self.$cookies.set('lang', self.selectLanguage)
+            document.documentElement.lang = self.selectLanguage
+            self.$router.push({params: {lang: self.selectLanguage}})
+            self.$router.go(0)
+        },
         getWindowWidth(event) {
             let windowWidth = document.documentElement.clientWidth;
             if(windowWidth < 1200) {

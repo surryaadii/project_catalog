@@ -113,6 +113,7 @@ export default {
             Object.keys(self.formData).forEach((item, i) => {
                 self.formData[item] = ''
             })
+            this.formValidation.errForm = {}
         },
 
         submitForm: async function() {

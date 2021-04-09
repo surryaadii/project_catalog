@@ -11,7 +11,7 @@
                     <template #img>
                         <img
                             class="d-block banner-img w-100"
-                            src="https://picsum.photos/4951/3301/?image=1025"
+                            :src="bannerImg.image_url"
                         >
                     </template>
                     <template v-if="i == 0">

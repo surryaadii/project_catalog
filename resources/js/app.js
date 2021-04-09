@@ -4,6 +4,7 @@ import VueInternalization from 'vue-i18n'
 import VueCookies from 'vue-cookies'
 import VueAgile from 'vue-agile'
 import _ from 'lodash'
+import axios from 'axios';
 import App from './components/App'
 import Home from './components/layouts/Home'
 import Products from './components/layouts/Products'
@@ -25,11 +26,14 @@ Vue.use(VueCookies)
 Vue.use(VueRouter)
 Vue.use(VueInternalization);
 
-const lang = document.documentElement.lang.substr(0, 2) || 'en';
+const lang = Vue.$cookies.get('lang') || 'en'
+document.documentElement.lang = lang
 const i18n = new VueInternalization({
     locale: lang,
     messages: Locale
 });
+
+axios.defaults.headers.common['lang'] = lang;
 
 const router = new VueRouter({
     mode: 'history',
@@ -83,16 +87,23 @@ const router = new VueRouter({
 const DEFAULT_TITLE = 'Global Business Solution'
 router.beforeEach((to, from, next) => {
     let language = to.params.lang;
-    if (!language) {
-      language = 'en'
-    }
+    // if (!language) {
+    //   language = Vue.$cookies.get('lang') || 'en'
+    // }
+
 
     Vue.nextTick(() => {
         document.title = `${to.meta.title} | ${DEFAULT_TITLE}` || DEFAULT_TITLE;
     });
-  
+
     // set the current language for i18n.
-    i18n.locale = language
+    if (_.includes(i18n.availableLocales, language)) {
+        i18n.locale = language
+        Vue.$cookies.set('lang', language)
+    } else {
+        language = Vue.$cookies.get('lang') || 'en'
+        return next({path: '/', params:{lang:language}})
+    }
     next()
 });
 

@@ -101,3 +101,35 @@ h1 {
         border-bottom: 2px solid #000;
     }
 }
+
+.floating-icon-whatsapp {
+    position: fixed;
+    width: auto;
+    height: 35px;
+    right: 50px;
+    bottom: 50px;
+    padding: 8px 16px;
+    background: #ffffff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    box-shadow: 2px 1px 10px #00000029;
+    cursor: pointer;
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    img {
+        position: relative;
+        left: 0px;
+        width: 25px;
+        height: 25px;
+    }
+
+    span {
+        color: $blue;
+        padding-left: 8px;
+        font-weight: 900;
+    }
+}

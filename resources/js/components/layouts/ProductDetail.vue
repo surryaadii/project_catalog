@@ -31,7 +31,7 @@
             </div>
             <div class="product-detail-right">
                 <div class="share-product">
-                    <span><img src="" alt="">Share This Product</span>
+                    <span><img src="/assets/frontend/images/share-icon.svg" alt=""> Share This Product</span>
                 </div>
                 <div class="product-title">
                     <h1>{{ productDetail.name }}</h1>
@@ -44,7 +44,7 @@
                     <router-link :to="{ name: 'contact' }" custom v-slot="{ href, navigate }">
                         <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-blue btn-action text-white">order this product</a>
                     </router-link>
-                    <a href="javascript:void(0)" class="btn btn-white btn-action">ask about this product</a>
+                    <a :href="`https://wa.me/628989224842?text=i want to ask about product ${ productDetail.name } ` " target="_blank" class="btn btn-white btn-action">ask about this product</a>
                 </div>
             </div>
         </div>

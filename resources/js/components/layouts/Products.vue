@@ -104,7 +104,7 @@
                             <div class="wrapper-item">
                                 <div class="item-image">
                                     <span class="item-new" v-if="product.is_new"> new </span>
-                                    <img :src="product.assets.length ? product.assets[0].url : `https://source.unsplash.com/random/500x500?sig=${Math.floor(Math.random() * 24) + 5  }`" alt="" class="img-fluid">
+                                    <img :src="product.assets.length ? product.assets[0].url : `https://source.unsplash.com/random/500x500?sig=${ Math.floor(Math.random() * 123) + Math.floor(Math.random() * 123) }`" alt="" class="img-fluid">
                                 </div>
                                 <div class="item-detail">
                                     <p class="item-title mb-0">{{ product.name }}</p>
