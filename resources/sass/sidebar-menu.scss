@@ -67,3 +67,11 @@
         }
     }
 }
+
+// mobile view 
+@media screen and (max-width: 1199px) {
+    .sidebar {
+        max-width: auto;
+        min-width: auto;
+    }
+}

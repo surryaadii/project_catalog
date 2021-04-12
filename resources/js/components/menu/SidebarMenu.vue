@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar">
-        <b-sidebar id="sidebar-1" shadow v-model="isOpenSidebarMenu" :class="'sidebar-outer'" :bodyClass="'sidebar-body'" :footerClass="'sidebar-footer'" :headerClass="'sidebar-header'" :noCloseOnRouteChange="noCloseOnRouteChange" :sidebar-class="'sidebar-menu'">
+        <b-sidebar id="sidebar-menu" shadow v-model="isOpenSidebarMenu" :class="'sidebar-outer'" :bodyClass="'sidebar-body'" :footerClass="'sidebar-footer'" :headerClass="'sidebar-header'" :noCloseOnRouteChange="noCloseOnRouteChange" :backdrop="isBackdropActive" :no-slide="!isSlideActive" :sidebar-class="'sidebar-menu'">
             <template #header="{}">
                 <router-link :to="{ name: 'home' }" custom v-slot="{ href, navigate, isExactActive }">
                     <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="logo-link" :class="isExactActive ? 'active' : '' ">
@@ -70,8 +70,10 @@
 export default {
     data() {
         return {
-            isOpenSidebarMenu: true,
-            noCloseOnRouteChange: true,
+            isOpenSidebarMenu: false,
+            noCloseOnRouteChange: false,
+            isBackdropActive : false,
+            isSlideActive : false,
             selectLanguage: 'en',
         }
     },
@@ -95,9 +97,13 @@ export default {
             if(windowWidth < 1200) {
                 this.noCloseOnRouteChange = false
                 this.isOpenSidebarMenu = false
+                this.isBackdropActive = true
+                this.isSlideActive = true
             } else {
                 this.noCloseOnRouteChange = true
                 this.isOpenSidebarMenu = true
+                this.isBackdropActive = false
+                this.isSlideActive = false
             }
         },
         subIsActive(input) {

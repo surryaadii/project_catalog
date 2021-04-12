@@ -14,19 +14,21 @@
                             :src="bannerImg.image_url"
                         >
                     </template>
-                    <template v-if="i == 0">
-                        <h1 class="slogan-text">We bring Indonesian Product to the world.</h1> 
-                    </template>
-                    <template v-else> 
-                        <h2 class="slogan-text">We bring Indonesian Product to the world.</h2> 
-                    </template>
-                    <div class="wrapper-banner-button w-100 text-left">
-                        <router-link :to="{ name: 'products' }" custom v-slot="{ href, navigate, isExactActive }">
-                            <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-white btn-banner" :class="isExactActive ? 'active' : '' ">Products</a>
-                        </router-link>
-                        <router-link :to="'#'" custom v-slot="{ href, navigate, isExactActive }">
-                            <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-white btn-banner" :class="isExactActive ? 'active' : '' ">Learn More</a>
-                        </router-link>
+                    <div class="carousel-caption-wrapper">
+                        <template v-if="i == 0">
+                            <h1 class="slogan-text">We bring Indonesian Product to the world.</h1> 
+                        </template>
+                        <template v-else> 
+                            <h2 class="slogan-text">We bring Indonesian Product to the world.</h2> 
+                        </template>
+                        <div class="wrapper-banner-button w-100 text-center">
+                            <router-link :to="{ name: 'products' }" custom v-slot="{ href, navigate, isExactActive }">
+                                <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-white btn-banner" :class="isExactActive ? 'active' : '' ">Products</a>
+                            </router-link>
+                            <router-link :to="'#'" custom v-slot="{ href, navigate, isExactActive }">
+                                <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-white btn-banner" :class="isExactActive ? 'active' : '' ">Learn More</a>
+                            </router-link>
+                        </div>
                     </div>
                 </b-carousel-slide>
             </template>

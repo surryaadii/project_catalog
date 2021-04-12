@@ -60,10 +60,10 @@
             <b-skeleton-wrapper :loading="isLoading">
                 <template #loading>            
                     <div class="row">
-                        <div class="col-md-3 product-item">
+                        <div class="col-md-3 col-sm-6 product-item">
                             <div class="wrapper-item">
                                 <div class="item-image">
-                                    <b-skeleton-img height="203px"></b-skeleton-img>
+                                    <b-skeleton-img></b-skeleton-img>
                                 </div>
                                 <div class="item-detail">
                                     <b-skeleton width="85%"></b-skeleton>
@@ -71,10 +71,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 product-item">
+                        <div class="col-md-3 col-sm-6 product-item">
                             <div class="wrapper-item">
                                 <div class="item-image">
-                                    <b-skeleton-img height="203px"></b-skeleton-img>
+                                    <b-skeleton-img></b-skeleton-img>
                                 </div>
                                 <div class="item-detail">
                                     <b-skeleton width="85%"></b-skeleton>
@@ -82,10 +82,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3 product-item">
+                        <div class="col-md-3 col-sm-6 product-item">
                             <div class="wrapper-item">
                                 <div class="item-image">
-                                    <b-skeleton-img height="203px"></b-skeleton-img>
+                                    <b-skeleton-img></b-skeleton-img>
                                 </div>
                                 <div class="item-detail">
                                     <b-skeleton width="85%"></b-skeleton>
@@ -100,7 +100,7 @@
                 <template v-if="!isLoading">
                     <div class="count-search-products" v-if="searchText.length > 0"><span>{{summary.end}} of {{summary.total_row}} Search Result for “{{searchText}}”</span></div>
                     <div class="row" v-for="(rowProducts, i) in products" :key="i">
-                        <div class="col-md-3 product-item" v-for="(product, j) in rowProducts" :key="j">
+                        <div class="col-md-3 col-sm-6 product-item" v-for="(product, j) in rowProducts" :key="j">
                             <div class="wrapper-item">
                                 <div class="item-image">
                                     <span class="item-new" v-if="product.is_new"> new </span>

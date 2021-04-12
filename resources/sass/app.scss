@@ -21,6 +21,16 @@
 // @import '~bootstrap/scss/bootstrap';
 
 
+#app {
+    // min-width: 1366px;
+    min-height: 100%;
+    height: 100%;
+}
+
+html {
+    height: 100%;
+}
+
 body {
     font-family: $font-family-Poppins !important;
     letter-spacing: 0.3px;
@@ -29,6 +39,9 @@ body {
     word-wrap: break-word;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
+    height: 100%;
+    min-height: 100%;
+    background-color: #f4f4f4 !important;
 }
 
 [class*="form-"] .req {
@@ -90,12 +103,6 @@ h1 {
     padding: 15px !important;
 }
 
-#app {
-    // min-width: 1366px;
-    background-color: #F4F4F4;
-    height: 100vh;
-}
-
 .header {
     .nav-link.active {
         border-bottom: 2px solid #000;
@@ -131,5 +138,21 @@ h1 {
         color: $blue;
         padding-left: 8px;
         font-weight: 900;
+    }
+}
+
+.hamburger-menu {
+    display: none;
+}
+
+@media screen and (max-width:1199px){
+    .hamburger-menu {
+        display: inline-block;
+        position: fixed;
+        padding: 15px 30px;
+        z-index: 10;
+        align-self: flex-start;
+        width: 100%;
+        background: $main-bg-color;
     }
 }

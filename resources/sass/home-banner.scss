@@ -1,14 +1,17 @@
 .home-banner {
     .carousel-caption {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        bottom: 0;
-        top: 0;
-        width: 373px;
-        left: 39%;
-        right: 39%;
+        display: table;
+        width: 100%;
+        height: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+        left: 12%;
+        right: 12%;
+    }
+
+    .carousel-caption-wrapper {
+        display: table-cell;
+        vertical-align: middle;
     }
 
     .slogan-text {
@@ -42,5 +45,17 @@
     .banner-img {
         max-height: 100%;
         height: 100vh;
+    }
+
+    // mobile view 
+    @media screen and (max-width: 576px) {
+        .carousel-caption {
+            max-width: 270px !important;
+            width: 270px;
+        }
+
+        .slogan-text {
+            font-size: 25px !important;
+        }
     }
 }

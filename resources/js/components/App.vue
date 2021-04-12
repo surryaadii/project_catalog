@@ -1,5 +1,6 @@
 <template>
     <div class="d-flex">
+        <a class="hamburger-menu" href="#" v-b-toggle.sidebar-menu><img src="/assets/frontend/images/hamburger-icon.svg" alt=""></a>
         <SidebarMenu />
         <router-view></router-view>
         <div class="floating-icon-whatsapp">

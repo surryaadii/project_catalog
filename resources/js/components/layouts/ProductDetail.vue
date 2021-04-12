@@ -11,13 +11,13 @@
             </router-link>
         </div>
         <div class="product-detail">
-            <div class="product-detail-left">
-                <div>
+            <div class="product-detail-left row">
+                <div class="col-md-12">
                     <agile class="product-image-preview" ref="c1" :options="options1" :as-nav-for="asNavFor1" :key="assets.length">
                         <div class="slide" v-for="(slide, index) in assets" :key="index" :class="`slide--${index}`"><img :src="slide"/></div>
                     </agile>
                 </div>
-                <div>
+                <div class="col-md-12">
                     <agile class="product-image-thumbnails" ref="c2" :options="options2" :as-nav-for="asNavFor2" :key="assets.length">
                         <div class="slide slide--thumbnail" v-for="(slide, index) in assets" :key="index" :class="`slide--${index}`" @click="$refs.c2.goTo(index)"><img :src="slide"/></div>
                         <template slot="prevButton">
