@@ -5,6 +5,8 @@
 
         .product-filter {
             flex: 1;
+            overflow: auto;
+            white-space: nowrap;
         }
         .product-main-search {
             display: flex;

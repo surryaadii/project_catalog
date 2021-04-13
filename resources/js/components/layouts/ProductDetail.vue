@@ -11,27 +11,40 @@
             </router-link>
         </div>
         <div class="product-detail">
-            <div class="product-detail-left row">
-                <div class="col-md-12">
-                    <agile class="product-image-preview" ref="c1" :options="options1" :as-nav-for="asNavFor1" :key="assets.length">
-                        <div class="slide" v-for="(slide, index) in assets" :key="index" :class="`slide--${index}`"><img :src="slide"/></div>
-                    </agile>
-                </div>
-                <div class="col-md-12">
-                    <agile class="product-image-thumbnails" ref="c2" :options="options2" :as-nav-for="asNavFor2" :key="assets.length">
-                        <div class="slide slide--thumbnail" v-for="(slide, index) in assets" :key="index" :class="`slide--${index}`" @click="$refs.c2.goTo(index)"><img :src="slide"/></div>
-                        <template slot="prevButton">
-                            <img src="/assets/frontend/images/caret-left.svg" alt="">
-                        </template>
-                        <template slot="nextButton">
-                            <img src="/assets/frontend/images/caret-right.svg" alt="">
-                        </template>
-                    </agile>
+            <div class="product-detail-left">
+                <div class="row m-0">
+                    <div class="col-md-12 p-0">
+                        <splide
+                            :options="previewOptions"
+                            ref="primary"
+                            :slides="assets"
+                            class="splide-preview mx-auto"
+                        >
+                            <splide-slide v-for="slide in assets" :key="slide">
+                                <img :src="slide" alt="slide.alt">
+                            </splide-slide>
+                        </splide>
+                    </div>
+                    <div class="col-md-12 p-0">
+                        <splide
+                            :options="thumbnailOptions"
+                            ref="secondary"
+                            :slides="assets"
+                            class="splide-thumbnail"
+                        >
+                            <splide-slide v-for="slide in assets" :key="slide">
+                                <img :src="slide" alt="slide.alt">
+                            </splide-slide>
+                        </splide>
+                    </div>
                 </div>
             </div>
             <div class="product-detail-right">
                 <div class="share-product">
-                    <span><img src="/assets/frontend/images/share-icon.svg" alt=""> Share This Product</span>
+                    <span id="clipboard-event" :data-clipboard="currentUrl"><img src="/assets/frontend/images/share-icon.svg" alt=""> Share This Product</span>
+                    <b-tooltip ref="tooltip-clipboard" triggers="click" :disabled="true" target="clipboard-event">
+                        Link share copied !
+                    </b-tooltip>
                 </div>
                 <div class="product-title">
                     <h1>{{ productDetail.name }}</h1>
@@ -60,36 +73,44 @@ export default {
             token: '',
             productDetail: [],
             assets: [],
-            asNavFor1: [],
-			asNavFor2: [],
-            options1: {
-				dots: false,
-				fade: true,
-				navButtons: false
-			},
-			
-			options2: {
-				autoplay: false,
-				centerMode: true,
-				dots: false,
-				navButtons: true,
-				slidesToShow: 3,
-				responsive: [
-                    {
-                        breakpoint: 600,
-                        settings: {
-                            slidesToShow: 3
-                        }
-                    },
-                    {
-                        breakpoint: 1000,
-                        settings: {
-                            navButtons: true
-                        }
+
+            previewOptions: {
+                type       : 'fade',
+                heightRatio: 0.5,
+                width:  500,
+                height: 408,
+                pagination : false,
+                arrows     : false,
+                cover      : true,
+                breakpoints : {
+                    '520': {
+                        width: 300,
+                        height: 300,
                     }
-                ]
-				
-			},
+                }
+	      },
+	      thumbnailOptions: {
+                type:'loop',
+                width       : 480,
+                height     : 107,
+                gap        : 31,
+                rewind     : true,
+                cover      : true,
+                pagination : false,
+                focus      : 'center',
+                isNavigation: true,
+                perPage: 3,
+                padding: {
+                    left : 30,
+                    right: 30,
+                },
+                breakpoints : {
+                    '520': {
+                        width: 300,
+                        height: 70,
+                    }
+                }
+	        },
         }
     },
 
@@ -97,7 +118,34 @@ export default {
         this.token = this.$cookies.get('auth_token')
         this.getProductDetails()
     },
+    computed: {
+        currentUrl() {
+            return window.location.origin + this.$route.fullPath
+        }
+    },
+    mounted() {
+        setTimeout(() => { this.$refs.primary.sync(this.$refs.secondary.splide) }, 500)
+        this.clipboard()
+    },
     methods: {
+        clipboard: function() {
+            let self = this
+            document.querySelectorAll('[data-clipboard]').forEach( (item) => {
+                item.addEventListener('click', () => {
+                    let value = item.getAttribute('data-clipboard')
+                    let status = self.clipboardText(value)
+                    // console.log(self.$refs.tooltip-clipboard)
+                    if (status == 'successful') {
+                        self.$refs["tooltip-clipboard"].$emit('enable')
+                        self.$refs["tooltip-clipboard"].$emit('open')
+                    }
+                    setTimeout( () => {
+                        self.$refs["tooltip-clipboard"].$emit('close')
+                        self.$refs["tooltip-clipboard"].$emit('disable')
+                    },2000)
+                })
+            })
+        },
         getProductDetails: function() {
             let self = this
             self.slug = self.$route.params.slug
@@ -116,11 +164,6 @@ export default {
                         self.assets.push(assetProducts.url)
                     }
                 }
-            }).then(() => {
-                self.$refs.c1.reload()
-                self.$refs.c2.reload()
-                self.asNavFor1.push(self.$refs.c2)
-		        self.asNavFor2.push(self.$refs.c1)
             })
         }
     }

@@ -138,6 +138,7 @@ h1 {
         color: $blue;
         padding-left: 8px;
         font-weight: 900;
+        display: none;
     }
 }
 
@@ -154,5 +155,11 @@ h1 {
         align-self: flex-start;
         width: 100%;
         background: $main-bg-color;
+    }
+}
+
+@media screen and (max-width:768px){
+    .floating-icon-whatsapp {
+        right: 20px
     }
 }

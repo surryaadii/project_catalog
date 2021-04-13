@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueInternalization from 'vue-i18n'
 import VueCookies from 'vue-cookies'
-import VueAgile from 'vue-agile'
+import VueSplide from '@splidejs/vue-splide';
 import _ from 'lodash'
 import axios from 'axios';
 import App from './components/App'
@@ -16,11 +16,12 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
-Vue.use(VueAgile)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCookies)
+Vue.use(VueSplide);
 
 
 Vue.use(VueRouter)
@@ -87,10 +88,6 @@ const router = new VueRouter({
 const DEFAULT_TITLE = 'Global Business Solution'
 router.beforeEach((to, from, next) => {
     let language = to.params.lang;
-    // if (!language) {
-    //   language = Vue.$cookies.get('lang') || 'en'
-    // }
-
 
     Vue.nextTick(() => {
         document.title = `${to.meta.title} | ${DEFAULT_TITLE}` || DEFAULT_TITLE;
@@ -121,6 +118,21 @@ Vue.mixin({
         validatePhone: function(phone) {
             let re = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/
             return re.test(phone)
+        },
+        clipboardText: function(text) {
+            let textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            let msg = ''
+            try {
+                let successful = document.execCommand('copy');
+                msg = successful ? 'successful' : 'unsuccessful';
+            } catch (err) {
+                console.log('Oops, unable to copy');
+            }
+            document.body.removeChild(textArea);
+            return msg
         }
     }
 })
