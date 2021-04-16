@@ -23,7 +23,7 @@
                         </template>
                         <div class="wrapper-banner-button w-100 text-center">
                             <router-link :to="{ name: 'products' }" custom v-slot="{ href, navigate, isExactActive }">
-                                <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-white btn-banner" :class="isExactActive ? 'active' : '' ">Products</a>
+                                <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-white btn-banner" :class="isExactActive ? 'active' : '' ">See Our Products</a>
                             </router-link>
                             <router-link :to="'#'" custom v-slot="{ href, navigate, isExactActive }">
                                 <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="btn btn-white btn-banner" :class="isExactActive ? 'active' : '' ">Learn More</a>
