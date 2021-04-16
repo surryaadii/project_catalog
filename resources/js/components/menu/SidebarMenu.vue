@@ -33,15 +33,15 @@
             <template #footer="{}">
                 <div>
                     <b-form-group class="mr-4">
-                        <b-form-select v-model="selectLanguage" class="mb-1" @change="changeLanguage">
+                        <b-form-select v-model="selectLanguage" class="mb-1 select-language" @change="changeLanguage">
                         <!-- This slot appears above the options from 'options' prop -->
                             <template #first>
                                 <b-form-select-option :value="null" disabled>-- Please select an option --</b-form-select-option>
                             </template>
 
                             <!-- These options will appear after the ones from 'options' prop -->
-                            <b-form-select-option value="id">Indonesian</b-form-select-option>
-                            <b-form-select-option value="en">English</b-form-select-option>
+                            <b-form-select-option value="id">🇮🇩 Indonesian</b-form-select-option>
+                            <b-form-select-option value="en">🇺🇸 English</b-form-select-option>
                         </b-form-select>
                     </b-form-group>
                     <div class="social-media">
