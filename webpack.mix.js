@@ -12,4 +12,11 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/assets/frontend/js')
-    .sass('resources/sass/app.scss', 'public/assets/frontend/css');
+    .sass('resources/sass/app.scss', 'public/assets/frontend/css')
+    .webpackConfig({
+        resolve: {
+            alias: {
+                '@assets': path.resolve(__dirname, 'public/assets'),
+            },
+        }
+    });

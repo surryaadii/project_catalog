@@ -128,8 +128,8 @@
             </template>
         </div>
         <div class="pagination-products" v-if="!isLoading && products.length > 0">
-            <span class="pagination-icon" :class="( summary.max_page <= summary.current_page && summary.max_page > 1 ) ? '' : 'disabled'" @click="getProducts(summary.current_page-1, filterCategory, searchText)">
-                <img :src="( summary.max_page <= summary.current_page && summary.max_page > 1) ? `/assets/frontend/images/caret-left.svg` : `/assets/frontend/images/caret-left-disabled.svg`" alt="">
+            <span class="pagination-icon" :class="summary.current_page > 1 ? '' : 'disabled'" @click="getProducts(summary.current_page-1, filterCategory, searchText)">
+                <img :src="summary.current_page > 1 ? `/assets/frontend/images/caret-left.svg` : `/assets/frontend/images/caret-left-disabled.svg`" alt="">
             </span>
             <span class="pagination-page">{{ summary.current_page }}</span>
             <span class="pagination-icon" :class="summary.max_page > summary.current_page ? '' : 'disabled' " @click="getProducts(summary.current_page+1, filterCategory, searchText)">
