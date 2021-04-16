@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar">
-        <b-sidebar id="sidebar-menu" shadow v-model="isOpenSidebarMenu" :class="'sidebar-outer'" :bodyClass="'sidebar-body'" :footerClass="'sidebar-footer'" :headerClass="'sidebar-header'" :noCloseOnRouteChange="noCloseOnRouteChange" :backdrop="isBackdropActive" :no-slide="!isSlideActive" :sidebar-class="'sidebar-menu'">
+        <b-sidebar id="sidebar-menu" shadow v-model="isOpenSidebarMenu" :class="'sidebar-outer'" :bodyClass="'sidebar-body'" :footerClass="'sidebar-footer'" :headerClass="'sidebar-header'" :noCloseOnRouteChange="noCloseOnRouteChange" :backdrop="isBackdropActive" :no-slide="!isSlideActive" z-index="100" :sidebar-class="'sidebar-menu'">
             <template #header="{}">
                 <router-link :to="{ name: 'home' }" custom v-slot="{ href, navigate, isExactActive }">
                     <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="logo-link" :class="isExactActive ? 'active' : '' ">

@@ -53,7 +53,7 @@
                 <span class="product-search-icon">
                     <b-icon icon="search" font-scale="1.5"></b-icon>
                 </span>
-                <span class="product-search-title">Search</span>
+                <span class="product-search-title d-none d-sm-block">Search</span>
             </div>
         </div>
         <div class="list-products">

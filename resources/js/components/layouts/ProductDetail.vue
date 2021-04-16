@@ -1,5 +1,10 @@
 <template>
   <div class="container product-detail-page">
+        <Tinybox
+            v-model="index"
+            :images="assets"
+            loop
+        />
         <div class="product-detail-navigation">
             <router-link :to="{ name: 'products' }" custom v-slot="{ href, navigate }">
                 <a :href="href" @click="navigate" @keypress.enter="navigate" role="link">
@@ -19,9 +24,10 @@
                             ref="primary"
                             :slides="assets"
                             class="splide-preview mx-auto"
+                            @splide:click="index = $event.index"
                         >
-                            <splide-slide v-for="slide in assets" :key="slide">
-                                <img :src="slide" alt="slide.alt">
+                            <splide-slide v-for="(slide, i) in assets" :key="i">
+                                <img :src="slide.src" alt="slide.alt">
                             </splide-slide>
                         </splide>
                     </div>
@@ -32,8 +38,8 @@
                             :slides="assets"
                             class="splide-thumbnail"
                         >
-                            <splide-slide v-for="slide in assets" :key="slide">
-                                <img :src="slide" alt="slide.alt">
+                            <splide-slide v-for="(slide, i) in assets" :key="i">
+                                <img :src="slide.src" alt="slide.alt">
                             </splide-slide>
                         </splide>
                     </div>
@@ -73,7 +79,7 @@ export default {
             token: '',
             productDetail: [],
             assets: [],
-
+            index: null,
             previewOptions: {
                 type       : 'fade',
                 heightRatio: 0.5,
@@ -161,7 +167,7 @@ export default {
                     self.productDetail = data.values.product
                     for (let index = 0; index < self.productDetail.assets.length; index++) {
                         const assetProducts = self.productDetail.assets[index];
-                        self.assets.push(assetProducts.url)
+                        self.assets.push({'src' : assetProducts.url})
                     }
                 }
             })

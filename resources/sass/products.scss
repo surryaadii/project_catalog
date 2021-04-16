@@ -12,12 +12,10 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-
-            .product-search-icon {
-                margin-right: 10px;
-            }
+            padding-left: 10px;
 
             .product-search-title {
+                margin-left: 10px;
                 font-weight: 700;
                 letter-spacing: 0;
             }

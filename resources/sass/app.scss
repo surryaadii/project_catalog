@@ -163,3 +163,9 @@ h1 {
         right: 20px
     }
 }
+
+@media screen and (max-width: 576px) {
+    .btn-banner:not(:last-child) {
+        margin-bottom: 10px;
+    }
+}

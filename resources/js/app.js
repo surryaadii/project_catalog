@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import VueInternalization from 'vue-i18n'
 import VueCookies from 'vue-cookies'
 import VueSplide from '@splidejs/vue-splide';
+import Tinybox from "vue-tinybox";
 import _ from 'lodash'
 import axios from 'axios';
 import App from './components/App'
@@ -21,8 +22,9 @@ import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCookies)
-Vue.use(VueSplide);
+Vue.use(VueSplide)
 
+Vue.component('Tinybox', Tinybox);
 
 Vue.use(VueRouter)
 Vue.use(VueInternalization);
