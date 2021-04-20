@@ -109,6 +109,13 @@ h1 {
     }
 }
 
+.icon {
+    fill: currentColor;
+    .icon-inline {
+        position: relative;
+    }
+}
+
 .floating-icon-whatsapp {
     position: fixed;
     width: auto;
@@ -127,7 +134,7 @@ h1 {
         text-decoration: none;
     }
 
-    img {
+    svg {
         position: relative;
         left: 0px;
         width: 25px;

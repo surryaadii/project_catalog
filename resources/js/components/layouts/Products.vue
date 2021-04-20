@@ -8,12 +8,12 @@
             </template>
             <div slot="body" class="search-modal-body">
                 <div class="modal-search-category">
-                    <div class="modal-search-category-title" @click="openCategorySearchItem('.category-option-list')">
+                    <div class="modal-search-category-title" @click="openCategorySearchItem('.modal-search-category-title', '.category-option-list')">
                         <span>Categories</span>
-                        <img src="/assets/frontend/images/caret-top-no-background.svg" alt="">
+                        <img svg-inline class="icon icon-inline" src="@assets/frontend/images/caret-top-no-background.svg" />
                     </div>
                     <div class="category-option-list">
-                        <div class="option-list" v-for="(category, i) in categories" :key="i" @click="selectCategorySearchItem('.category-option-list',category.slug)">
+                        <div class="option-list" v-for="(category, i) in categories" :key="i" @click.prevent="selectCategorySearchItem('.modal-search-category-title','.category-option-list', category.slug)">
                             <label :for="`option-list-${i}`" class="mb-0">
                                 <input
                                     type="radio"
@@ -110,12 +110,11 @@
                                     <p class="item-title mb-0">{{ product.name }}</p>
                                     <div class="item-action">
                                         <span class="item-action-icon">
-                                            <img src="/assets/frontend/images/caret-right.svg" alt="item-link">
+                                            <img svg-inline class="icon icon-inline" src="@assets/frontend/images/caret-right.svg" />
                                         </span>
                                         <router-link :to="{ name: 'productDetail', params:{ slug: product.slug }  }" custom v-slot="{ href, navigate }">
                                             <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="item-action-link">See Product Detail</a>
                                         </router-link>
-                                        <!-- <a class="product-action-link" href="#">See Product Detail</a> -->
                                     </div>
                                 </div>
                             </div>
@@ -129,11 +128,13 @@
         </div>
         <div class="pagination-products" v-if="!isLoading && products.length > 0">
             <span class="pagination-icon" :class="summary.current_page > 1 ? '' : 'disabled'" @click="getProducts(summary.current_page-1, filterCategory, searchText)">
-                <img :src="summary.current_page > 1 ? `/assets/frontend/images/caret-left.svg` : `/assets/frontend/images/caret-left-disabled.svg`" alt="">
+                <img svg-inline v-if="summary.current_page > 1 " class="icon icon-inline" src="@assets/frontend/images/caret-left.svg" />
+                <img svg-inline v-else class="icon icon-inline" src="@assets/frontend/images/caret-left-disabled.svg" />
             </span>
             <span class="pagination-page">{{ summary.current_page }}</span>
             <span class="pagination-icon" :class="summary.max_page > summary.current_page ? '' : 'disabled' " @click="getProducts(summary.current_page+1, filterCategory, searchText)">
-                <img :src="summary.max_page > summary.current_page ? `/assets/frontend/images/caret-right.svg` : `/assets/frontend/images/caret-right-disabled.svg`" alt="">
+                <img svg-inline v-if="summary.max_page > summary.current_page " class="icon icon-inline" src="@assets/frontend/images/caret-right.svg" />
+                <img svg-inline v-else class="icon icon-inline" src="@assets/frontend/images/caret-right-disabled.svg" />
             </span>
         </div>
     </div>
@@ -175,12 +176,14 @@ export default {
     },
 
     methods: {
-        openCategorySearchItem: function(classEle) {
-            let ele = document.querySelector(classEle)
-            ele.classList.contains('opened') ? ele.classList.remove('opened') : ele.classList.add('opened')
+        openCategorySearchItem: function(classEleModal, classEle) {
+            let elements = document.querySelectorAll(`${classEleModal}, ${classEle}`)
+            elements.forEach(ele => {
+                ele.classList.contains('opened') ? ele.classList.remove('opened') : ele.classList.add('opened')
+            });
         },
-        selectCategorySearchItem: function(classEle, value) {
-            this.openCategorySearchItem(classEle)
+        selectCategorySearchItem: function(classEleModal, classEle, value) {
+            this.openCategorySearchItem(classEleModal, classEle)
             this.filterCategory = value
         },
         getCategories:function () {
@@ -232,7 +235,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

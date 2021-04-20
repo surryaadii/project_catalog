@@ -13,6 +13,14 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/assets/frontend/js')
     .sass('resources/sass/app.scss', 'public/assets/frontend/css')
+    .override(config => {
+        config.module.rules.push({
+            test: /\.vue$/,
+            use: [{
+                loader: "vue-svg-inline-loader",
+            }]
+        })
+    })
     .webpackConfig({
         resolve: {
             alias: {

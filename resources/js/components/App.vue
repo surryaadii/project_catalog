@@ -5,7 +5,7 @@
         <router-view></router-view>
         <div class="floating-icon-whatsapp">
             <a :href="'https://wa.me/'+ 628989224842 " target="_blank">
-                <img src="/assets/frontend/images/whatsapp-icon.svg" alt="">
+                <img svg-inline class="icon icon-inline" src="@assets/frontend/images/whatsapp-icon.svg" />
                 <span class="d-sm-inline-block">Chat</span>
             </a>
         </div>

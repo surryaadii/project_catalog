@@ -9,7 +9,7 @@
             <router-link :to="{ name: 'products' }" custom v-slot="{ href, navigate }">
                 <a :href="href" @click="navigate" @keypress.enter="navigate" role="link">
                     <span class="product-navigation-icon">
-                        <img src="/assets/frontend/images/caret-left.svg">
+                        <img svg-inline class="icon icon-inline" src="@assets/frontend/images/caret-left.svg" />
                     </span>
                     <span class="product-navigation-text">Back to Product Page</span>
                 </a>
@@ -47,7 +47,10 @@
             </div>
             <div class="product-detail-right">
                 <div class="share-product">
-                    <span id="clipboard-event" :data-clipboard="currentUrl"><img src="/assets/frontend/images/share-icon.svg" alt=""> Share This Product</span>
+                    <span id="clipboard-event" :data-clipboard="currentUrl">
+                        <img svg-inline class="icon icon-inline" src="@assets/frontend/images/share-icon.svg" />
+                        Share This Product
+                    </span>
                     <b-tooltip ref="tooltip-clipboard" triggers="click" :disabled="true" target="clipboard-event">
                         Link share copied !
                     </b-tooltip>

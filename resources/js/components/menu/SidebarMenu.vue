@@ -48,9 +48,9 @@
                         <span>Follow Our Social Media</span>
                         <div class="social-media-icon">
 
-                         <a href="#"><img src="/assets/frontend/images/facebook-icon.svg" alt="facebook-img"></a> 
-                         <a href="#"><img src="/assets/frontend/images/twitter-icon.svg" alt="twitter-img"></a> 
-                         <a href="#"><img src="/assets/frontend/images/instagram-icon.svg" alt="instagram-img"></a>
+                         <a href="#"><img svg-inline class="icon icon-inline" src="@assets/frontend/images/facebook-icon.svg" alt="facebook-img" /></a> 
+                         <a href="#"><img svg-inline class="icon icon-inline" src="@assets/frontend/images/twitter-icon.svg" alt="twitter-img" /></a> 
+                         <a href="#"><img svg-inline class="icon icon-inline icon-instagram" src="@assets/frontend/images/instagram-icon.svg" alt="instagram-img" /></a>
                         </div>
                     </div>
                     <div class="copyright">

@@ -17,7 +17,7 @@
                 height: 30px;
                 margin-right: 5px;
 
-                img {
+                svg {
                     position: absolute;
                     left: -7px;
                     top: -3px;
@@ -90,10 +90,11 @@
             max-width: 62.333333%;
             .share-product {
                 margin-bottom: 20px;
-                img {
-                  width: 20px;
-                  height: 20px;
-                  margin-right: 5px;
+                svg {
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 5px;
+                    .a{fill:#3369bd;stroke:#3369bd;stroke-width:1.5px;}
                 }
                 span {
                     color: $blue;
