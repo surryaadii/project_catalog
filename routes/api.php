@@ -45,4 +45,5 @@ Route::group(['as'=>'api.', 'prefix' => 'v1', 'middleware' => ['localization']],
     Route::get('/products', 'Api\\Frontend\\ProductController@index');
     Route::get('/product/{slug}', 'Api\\Frontend\\ProductController@show');
     Route::get('/categories', 'Api\\Frontend\\CategoryController@index');
+    Route::post('/send-email', 'Api\\Frontend\\ContactController@sendEmail');
 });

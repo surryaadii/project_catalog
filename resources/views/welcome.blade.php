@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/app.css') }}">
   </head>
   <body>
+    <noscript>Sorry, your browser does not support JavaScript!</noscript>
     <div id="app">
         <app />
     </div>

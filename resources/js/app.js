@@ -135,6 +135,43 @@ Vue.mixin({
             }
             document.body.removeChild(textArea);
             return msg
+        },
+        validateFormData: function(formData, formValidationData) {
+            let self = this
+            let errForm = {}
+            for(var key in formData) {
+                const modelValidation = formValidationData[key]
+                let arrError = [];
+                for (let idx in modelValidation) {
+                    const validation = modelValidation[idx];
+                    
+                    if(validation == 'required') {
+                        if(self.isBlank(formData[key])) {
+                            arrError.push(validation)
+                            break;
+                        }
+                    }
+
+                    //type phone
+                    if(validation == 'phone') {
+                        if(!self.validatePhone(formData[key])) {
+                            arrError.push(validation)
+                            break;
+                        }
+                    }
+
+                    //type email
+                    if(validation == 'email') {
+                        if(!self.validateEmail(formData[key])) {
+                            arrError.push(validation)
+                            break;
+                        }
+                    }
+                }
+                // if temp error more than 0 than set to object
+                if(arrError.length > 0) errForm[key] = arrError
+            }
+            return errForm;
         }
     }
 })

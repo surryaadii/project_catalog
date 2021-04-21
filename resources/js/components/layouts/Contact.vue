@@ -118,7 +118,9 @@ export default {
 
         submitForm: async function() {
             let self = this
-            await this.validateForm()
+            let formValidationModel = self.formValidation.model
+            let errForm = await this.validateFormData(self.formData, formValidationModel)
+            self.formValidation.errForm = errForm
             if(Object.keys(self.formValidation.errForm).length) return
              axios({
                 method: 'post',
@@ -127,47 +129,10 @@ export default {
             }).then((res) => {
                 let data = res.data
                 if(data.status) {
-                    self.bannersImg = data.values.banner
+                    console.log('success')
                 }
             })
         },
-
-        validateForm: function() {
-            let self = this
-            let errForm = {}
-            let formValidationModel = self.formValidation.model
-            for(var key in self.formData) {
-                const modelValidation = formValidationModel[key]
-                let arrError = [];
-                for (let idx in modelValidation) {
-                    const validation = modelValidation[idx];
-                    console.log(validation, self.formData[key])
-                    
-                    if(validation == 'required') {
-                        if(self.isBlank(self.formData[key])) {
-                            arrError.push(validation)
-                            break;
-                        }
-                    }
-
-                    if(validation == 'phone') {
-                        if(!self.validatePhone(self.formData[key])) {
-                            arrError.push(validation)
-                            break;
-                        }
-                    }
-
-                    if(validation == 'email') {
-                        if(!self.validateEmail(self.formData[key])) {
-                            arrError.push(validation)
-                            break;
-                        }
-                    }
-                }
-                if(arrError.length > 0) errForm[key] = arrError
-            }
-            self.formValidation.errForm = errForm
-        }
     }
 
 }
