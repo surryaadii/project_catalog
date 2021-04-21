@@ -21,6 +21,11 @@ mix.js('resources/js/app.js', 'public/assets/frontend/js')
             }]
         })
     })
+    .options({
+        terser: {
+          extractComments: false,
+        }
+    })
     .webpackConfig({
         resolve: {
             alias: {

@@ -6,13 +6,9 @@ import VueSplide from '@splidejs/vue-splide'
 import Tinybox from "vue-tinybox"
 import _ from 'lodash'
 import axios from 'axios';
+import router from './router'
+import i18n from './i18n'
 import App from './components/App'
-import Home from './components/layouts/Home'
-import Products from './components/layouts/Products'
-import ProductDetail from './components/layouts/ProductDetail'
-import About from './components/layouts/About'
-import Contact from './components/layouts/Contact'
-import Locale from './vue-i18n-locales.generated'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
@@ -23,88 +19,12 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCookies)
 Vue.use(VueSplide)
+Vue.use(VueRouter)
 
 Vue.component('Tinybox', Tinybox);
 
-Vue.use(VueRouter)
-Vue.use(VueInternalization);
-
 const lang = Vue.$cookies.get('lang') || 'en'
-document.documentElement.lang = lang
-const i18n = new VueInternalization({
-    locale: lang,
-    messages: Locale
-});
-
 axios.defaults.headers.common['lang'] = lang;
-
-const router = new VueRouter({
-    mode: 'history',
-    routes: [
-        {
-            path: '/',
-            redirect: `/${i18n.locale}`
-        },
-        {
-            path: '/:lang',
-            component: {
-                 render (c) { return c('router-view') } 
-            },
-            children: [
-                {
-                  path: '',
-                  name: 'home',
-                  component: Home,
-                  meta: ({ title: 'Home' }) 
-                },
-                {
-                    path: 'products',
-                    name: 'products',
-                    component: Products,
-                    meta: ({ title: 'Products' }) 
-                },
-                {
-                    path: 'products/:slug',
-                    name: 'productDetail',
-                    component: ProductDetail,
-                    meta: ({ title: 'Products Detail' })
-                },
-                {
-                  path: 'about',
-                  name: 'about',
-                  component: About,
-                  meta: ({ title: 'About' }) 
-                },
-                {
-                  path: 'contact',
-                  name: 'contact',
-                  component: Contact,
-                  meta: ({ title: 'Contact' }) 
-                }
-            ],
-        },
-    ],
-});
-
-
-const DEFAULT_TITLE = 'Global Business Solution'
-router.beforeEach((to, from, next) => {
-    let language = to.params.lang;
-
-    Vue.nextTick(() => {
-        document.title = `${to.meta.title} | ${DEFAULT_TITLE}` || DEFAULT_TITLE;
-    });
-
-    // set the current language for i18n.
-    if (_.includes(i18n.availableLocales, language)) {
-        i18n.locale = language
-        Vue.$cookies.set('lang', language)
-    } else {
-        language = Vue.$cookies.get('lang') || 'en'
-        return next({path: '/', params:{lang:language}})
-    }
-    next()
-});
 
 Vue.mixin({
     methods: {
