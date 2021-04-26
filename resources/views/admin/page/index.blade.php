@@ -25,6 +25,7 @@
                                 <thead>
                                     <tr>
                                         <th> Title </th>
+                                        <th> Slug </th>
                                         <th> Body </th>
                                         <th> Created At </th>
                                         <th> Actions </th>

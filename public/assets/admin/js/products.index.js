@@ -48,7 +48,7 @@ $(document).ready(function() {
             }
         ],
         columnDefs : [
-            {"orderable": false, "targets" : 1}
+            {"orderable": false, "targets" : [1,3]}
         ],
         });
         

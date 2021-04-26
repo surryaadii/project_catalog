@@ -42,4 +42,19 @@ class AuthController extends Controller
             'time' => microtime(true)-$sTime
         ]);
     }
+
+    public function logout() {
+        $message = "Success Logout";
+        $status = true;
+        $sTime = microtime(true);
+
+
+        \JWTAuth::invalidate(\JWTAuth::getToken());
+
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'time' => microtime(true)-$sTime
+        ]);
+    }
 }

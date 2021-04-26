@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 /* Admin Api */
 Route::group(['as'=>'api.admin.', 'prefix' => 'v1/admin'], function(){
     Route::post('/login', 'Api\\Admin\\AuthController@login')->name('login');
+    Route::post('logout', 'Api\\Admin\\AuthController@logout')->name('logout');
     Route::middleware('jwt.auth')->group(function () {
         Route::apiResource('users', 'Api\\Admin\\UserController');
         Route::apiResource('roles', 'Api\\Admin\\RoleController'); 
