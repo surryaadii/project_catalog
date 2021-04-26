@@ -21,5 +21,5 @@ Route::group(['as'=>'admin.', 'prefix'=>'admin'],function(){
     Route::resource('banners', 'Admin\\BannerController')->only(['index', 'create', 'edit']);
     Route::resource('categories', 'Admin\\CategoryController')->only(['index', 'create', 'edit']);
     Route::resource('products', 'Admin\\ProductController')->only(['index', 'create', 'edit']);
-    // Route::resource('sub-categories', 'Admin\\SubCategoryController')->only(['index', 'create', 'edit']);
+    Route::resource('pages', 'Admin\\PageController')->only(['index', 'create', 'edit']);
 });

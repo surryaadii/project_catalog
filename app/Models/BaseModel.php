@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use App\Observers\LogObserver;
 
 /**
@@ -17,6 +18,20 @@ class BaseModel extends Model
         parent::__construct($attributes);
         if( $this->timestamps )
             $this->fillable = array_merge($this->fillable, $this->logCol());
+    }
+
+    public function scopeOrderByTranslationOrModel(Builder $query, string $column, string $sortMethod = 'asc')
+    {
+        if((new static)->isTranslationAttribute($column)) {
+            $query->orderByTranslation($column, $sortMethod);
+        } else {
+            $query->orderBy($column, $sortMethod);
+        }
+    }
+
+    public function scopeWhereTranslationIlike(Builder $query, string $translationField, $value, ?string $locale = null)
+    {
+        return $this->scopeWhereTranslation($query, $translationField, $value, $locale, 'whereHas', 'ILIKE');
     }
 
     public static function boot()

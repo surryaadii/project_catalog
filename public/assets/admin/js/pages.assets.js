@@ -100,6 +100,7 @@ $(document).ready(function() {
                 'Authorization': token ? `Bearer ${token}` : '',
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },success:function(res, textStatus, xhr) {
+                console.log(new Blob([res], {type: data.mime_type}))
                 const url = window.URL.createObjectURL(new Blob([res], {type: data.mime_type}));
                 const a = document.createElement('a');
                 a.style.display = 'none';

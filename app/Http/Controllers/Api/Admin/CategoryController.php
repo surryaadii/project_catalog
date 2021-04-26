@@ -32,11 +32,11 @@ class CategoryController extends Controller
         
         if ($search) {
             $q = '%'.$search.'%';
-            $query = Category::whereNull('parent_id')->where('name', 'ilike', $q)->orderBy($orderColumn, $orderDir);
+            $query = Category::whereNull('parent_id')->whereTranslationIlike('name', $q)->orderByTranslationOrModel($orderColumn, $orderDir);
             $filtered = $query->count();
             $categories = $query->offset($start)->limit($length)->get();
         } else {
-            $categories = Category::whereNull('parent_id')->orderBy($orderColumn, $orderDir)->offset($start)->limit($length)->get();
+            $categories = Category::whereNull('parent_id')->orderByTranslationOrModel($orderColumn, $orderDir)->offset($start)->limit($length)->get();
             $filtered = $total;
         }
 

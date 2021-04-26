@@ -18,7 +18,7 @@
                         <template v-if="i == 0">
                             <h1 class="slogan-text">We bring Indonesian Product to the world.</h1> 
                         </template>
-                        <template v-else> 
+                        <template v-else>
                             <h2 class="slogan-text">We bring Indonesian Product to the world.</h2> 
                         </template>
                         <div class="wrapper-banner-button w-100 text-center">

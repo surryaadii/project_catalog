@@ -33,11 +33,11 @@ class ProductController extends Controller
         
         if ($search) {
             $q = '%'.$search.'%';
-            $query = Product::whereTranslation('name', 'ilike', $q)->orderByTranslation($orderColumn, $orderDir);
+            $query = Product::whereTranslation('name', 'ilike', $q)->orderByTranslationOrModel($orderColumn, $orderDir);
             $filtered = $query->count();
             $products = $query->offset($start)->limit($length)->get();
         } else {
-            $products = Product::orderByTranslation($orderColumn, $orderDir)->offset($start)->limit($length)->get();
+            $products = Product::orderByTranslationOrModel($orderColumn, $orderDir)->offset($start)->limit($length)->get();
             $filtered = $total;
         }
 

@@ -86,6 +86,13 @@ class AdminController extends Controller
                     ],
                 ]
             ],
+            'Pages' => [
+                'url' => route('admin.pages.index'),
+                'title' => 'Pages',
+                'icon' => '<i class="fa fa-file"></i>',
+                'controller' => ['App\Http\Controllers\Admin\PageController'],
+                'action' => ['admin.pages.index'],
+            ],
             'Settings' => [
                 'url' => 'javascript:void(0)',
                 'title' => 'Settings',

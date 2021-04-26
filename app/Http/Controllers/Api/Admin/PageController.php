@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\Api\BannerRequest;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Banner;
+use App\Models\Page;
 use App\Models\Asset;
 
-class BannerController extends Controller
+class PageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +20,7 @@ class BannerController extends Controller
         $draw = $request->input('draw');
         $start = $request->input('start');
         $length = $request->input('length');
-        $total = Banner::count();
+        $total = Page::count();
         $filtered = 0;
         $data = [];
         $search = $request->input('search')['value'];
@@ -33,23 +32,23 @@ class BannerController extends Controller
         
         if ($search) {
             $q = '%'.$search.'%';
-            $query = Banner::where('name', 'ilike', $q)->orderBy($orderColumn, $orderDir);
+            $query = Page::whereTranslationIlike('title', $q)->orderByTranslationOrModel($orderColumn, $orderDir);
             $filtered = $query->count();
-            $banners = $query->offset($start)->limit($length)->get();
+            $pages = $query->offset($start)->limit($length)->get();
         } else {
-            $banners = Banner::orderBy($orderColumn, $orderDir)->offset($start)->limit($length)->get();
+            $pages = Page::orderByTranslationOrModel($orderColumn, $orderDir)->offset($start)->limit($length)->get();
             $filtered = $total;
         }
 
-        foreach ($banners as $banner) {
+        foreach ($pages as $page) {
             $data[] = [
-                'id' => $banner->id,
-                'key' => $banner->key,
-                'banner_page' => $banner->banner_page,
-                'created_at' => $banner->created_at
+                'id' => $page->id,
+                'title' => $page->title,
+                'slug' => $page->slug,
+                'body' => $page->body,
+                'created_at' => $page->created_at,
             ];
         }
-
         return response()->json([
             'search' => $search,
             'draw' => $draw,
@@ -65,7 +64,7 @@ class BannerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BannerRequest $request)
+    public function store(Request $request)
     {
         \DB::beginTransaction();
         $status = false;
@@ -73,15 +72,16 @@ class BannerController extends Controller
         $message = '';
         $sTime = microtime(true);
         try {        
-            $model = new Banner;
-            $key = \Str::slug($request->get('banner_page'), '_');
-            $data = [
-                'key' => $key,
-                'banner_page' => $request->get('banner_page'),
-            ];
+            $model = new Page;
+            
+            $data = [];
+            foreach (config('translatable.locales') as $locale) {
+                $data[$locale]['title'] = $request->get($locale. '_title');
+                $data[$locale]['body'] = $request->get($locale. '_body');
+            }
             if ($model->fill($data) && $model->save()) {
                 \DB::commit();
-                $msg = "Banner Success Saved";
+                $msg = "Page Success Created";
                 $status = true;
                 $code = 200;
                 $message = 'Success';
@@ -90,7 +90,7 @@ class BannerController extends Controller
             \DB::rollback();
             $status = false;
             $message = 'Unprocessable Entity';
-            $msg = 'Banner not Created';
+            $msg = 'Page not Created';
         }
 
         return response()->json([
@@ -104,24 +104,13 @@ class BannerController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(BannerRequest $request, $id)
+    public function update(Request $request, $id)
     {
         \DB::beginTransaction();
         $status = false;
@@ -129,15 +118,15 @@ class BannerController extends Controller
         $message = '';
         $sTime = microtime(true);
         try {        
-            $model = Banner::findOrFail($id);
-            $key = join('_', explode(' ', $request->get('banner_page')));
-            $data = [
-                'key' => $key,
-                'banner_page' => $request->get('banner_page'),
-            ];
+            $model = Page::findOrfail($id);
+            $daata = [];
+            foreach (config('translatable.locales') as $locale) {
+                $data[$locale]['title'] = $request->get($locale. '_title');
+                $data[$locale]['body'] = $request->get($locale. '_body');
+            }
             if ($model->fill($data) && $model->save()) {
                 \DB::commit();
-                $msg = "Banner Success Saved";
+                $msg = "Page Success Edited";
                 $status = true;
                 $code = 200;
                 $message = 'Success';
@@ -146,7 +135,7 @@ class BannerController extends Controller
             \DB::rollback();
             $status = false;
             $message = 'Unprocessable Entity';
-            $msg = 'Banner not Created';
+            $msg = 'Page not Edited';
         }
 
         return response()->json([
@@ -173,10 +162,10 @@ class BannerController extends Controller
         $message = '';
         $sTime = microtime(true);
         try {
-            $model = Banner::findOrFail($id);
+            $model = Page::findOrFail($id);
             $model->delete();
             \DB::commit();
-            $msg = "Banner Success Deleted";
+            $msg = "Page Success Deleted";
             $status = true;
             $code = 200;
             $message = 'Success';
@@ -184,7 +173,7 @@ class BannerController extends Controller
             \DB::rollback();
             $status = false;
             $message = 'Unprocessable Entity';
-            $msg = 'Banner not Deleted';
+            $msg = 'Page not Deleted';
         }
         return response()->json([
             'status' => $status,
@@ -196,12 +185,12 @@ class BannerController extends Controller
         ], $code);
     }
 
-    public function indexBannerAssets(Request $request, $id)
+    public function indexPageAssets(Request $request, $id)
     {
         $draw = $request->input('draw');
         $start = $request->input('start');
         $length = $request->input('length');
-        $total = Banner::findOrFail($id)->assets()->count();
+        $total = Page::findOrFail($id)->assets()->count();
         $filtered = 0;
         $data = [];
         $search = $request->input('search')['value'];
@@ -214,16 +203,16 @@ class BannerController extends Controller
         
         if ($search) {
             $q = '%'.$search.'%';
-            $query = Banner::findOrFail($id)->assets()->where('name', 'ilike', $q)->orderBy('assets.'.$orderColumn, $orderDir);
+            $query = Page::findOrFail($id)->assets()->where('name', 'ilike', $q)->orderBy('assets.'.$orderColumn, $orderDir);
             $filtered = $query->count();
-            $banner_assets = $query->offset($start)->limit($length)->get();
+            $page_assets = $query->offset($start)->limit($length)->get();
         } else {
-            $banner_assets = Banner::findOrFail($id)->assets()->orderBy('assets.'.$orderColumn, $orderDir)->offset($start)->limit($length)->get();
+            $page_assets = Page::findOrFail($id)->assets()->orderBy('assets.'.$orderColumn, $orderDir)->offset($start)->limit($length)->get();
             $filtered = $total;
         }
 
         
-        foreach($banner_assets as $asset) {
+        foreach($page_assets as $asset) {
             $data[] = [
                 'id' => $asset->id,
                 'name' => $asset->name,
@@ -250,7 +239,7 @@ class BannerController extends Controller
         $message = '';
         $sTime = microtime(true);
         try {
-            $banner = Banner::findOrFail($id);
+            $page = Page::findOrFail($id);
             
             $asset = new Asset;
             $asset->name = $request->file->getClientOriginalName();
@@ -259,7 +248,7 @@ class BannerController extends Controller
             $asset->size = $request->file->getSize();
             $asset->save();
 
-            $banner->assets()->attach($asset);
+            $page->assets()->attach($asset);
         
             $path = $asset->create_path( $asset->created_at, $asset->id );
         
@@ -269,7 +258,7 @@ class BannerController extends Controller
             );
             $asset->generates();
             \DB::commit();
-            $msg = "Banner assets Success Created";
+            $msg = "Page Asset Success Uploaded";
             $status = true;
             $code = 200;
             $message = 'Success';
@@ -277,7 +266,7 @@ class BannerController extends Controller
             \DB::rollback();
             $status = false;
             $message = 'Unprocessable Entity';
-            $msg = 'Banner assets not Created';
+            $msg = 'Page Asset not Uploaded';
         }
 
         return response()->json([
@@ -290,22 +279,22 @@ class BannerController extends Controller
         ], $code);
     }
 
-    public function deleteAssetBanner($idBanner, $idAsset) {
+    public function deleteAssetPage($idPage, $idAsset) {
         \DB::beginTransaction();
         $status = false;
         $code = 422;
         $message = '';
         $sTime = microtime(true);
         try {
-            $banner = Banner::findOrFail($idBanner);
-            $assetQuery = $banner->assets()->where('asset_id', $idAsset);
+            $page = Page::findOrFail($idPage);
+            $assetQuery = $page->assets()->where('asset_id', $idAsset);
             $asset = $assetQuery->first();
             $assetQuery->delete(); 
             $path = $asset->create_path( $asset->created_at, $asset->id );
             Storage::delete( $path . '/' . $asset->name );
             Storage::deleteDirectory( $path );
             \DB::commit();
-            $msg = "Banner Asset Success Deleted";
+            $msg = "Page Asset Success Deleted";
             $status = true;
             $code = 200;
             $message = 'Success';
@@ -313,7 +302,7 @@ class BannerController extends Controller
             \DB::rollback();
             $status = false;
             $message = 'Unprocessable Entity';
-            $msg = 'Banner Asset not Deleted';
+            $msg = 'Page Asset not Deleted';
         }
         return response()->json([
             'status' => $status,
