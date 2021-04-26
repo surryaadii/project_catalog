@@ -22,7 +22,7 @@
                             </div>  
                             <div class="form-group">
                                 {{ Form::label($locale.'_body', 'Page Body '.'('.$locale.')') }}
-                                {{ Form::textarea($locale.'_body', $model->translate($locale) ? $model->translate($locale)->body : '' ,array('class' => 'form-control', 'placeholder'=>'Body')) }}
+                                {{ Form::textarea($locale.'_body', $model->translate($locale) ? $model->translate($locale)->body : '' ,array('class' => 'form-control ck-editor', 'placeholder'=>'Body')) }}
                             </div>
                         </div>
                         <!-- /.tab-pane -->

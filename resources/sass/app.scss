@@ -161,7 +161,12 @@ h1 {
         z-index: 10;
         align-self: flex-start;
         width: 100%;
+        box-shadow: 2px 1px 10px #00000029;
         background: $main-bg-color;
+    }
+
+    .container {
+        margin-top: 3rem !important;
     }
 }
 

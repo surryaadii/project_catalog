@@ -42,7 +42,7 @@ function sentAJax(func) {
         const el = getFormData[i];
         if( $(el).attr('disabled') ) continue
         let inputName = el.name
-        const inputVal = el.value
+        const inputVal = $(el).val()
         if(inputName.indexOf('[]') > -1) {
             foundArrayName = true
             inputName = el.name.split('[]')[0]
@@ -226,6 +226,31 @@ jQuery(function($) {
     //     insert: '<div class="form-group"></div>'
     //   });
 
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    // CKEDITOR.replaceAll('ck-editor')
+    $('.ck-editor').ckeditor()
+
+    $('.btn-logout').on('click', function(e) {
+        e.preventDefault()
+        let token = getCookie('auth_token')
+        let urlApi = $(this).attr('data-api')
+        let locationHref = $(this).attr('data-route')
+        $.ajax({
+            method: 'post',
+            url: urlApi,
+            headers: {
+                'Authorization': token ? `Bearer ${token}` : '',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },success:function(res, textStatus, xhr) {
+                if(xhr.status == 200) {
+                    eraseCookie('auth_token')
+                    window.location = locationHref
+                }
+            },
+            error:function(res){}
+        })
+    })
 })
 // pop up alert delete
 $(document).on('click', 'a.btn-delete', function (e) {

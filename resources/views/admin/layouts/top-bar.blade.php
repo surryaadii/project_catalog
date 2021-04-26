@@ -248,8 +248,8 @@
                 {{--<div class="pull-left">
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>--}}
-                <div class="pull-right div-form" data-api="{{ route('api.admin.logout')}}" data-route="{{ route('admin.dashboard')}}">
-                  <a href="#" class="btn btn-default btn-flat btn-submit">Sign out</a>
+                <div class="pull-right">
+                  <a href="#" class="btn btn-default btn-flat btn-logout" data-api="{{ route('api.admin.logout')}}" data-route="{{ route('admin.dashboard')}}">Sign out</a>
                 </div>
               </li>
             </ul>

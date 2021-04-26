@@ -36,7 +36,7 @@ $(document).ready(function() {
         columns: [
             {"data":"title"},
             {"data":"slug"},
-            {"data":"body"},
+            // {"data":"body"},
             {"data":"created_at"},
             {
                 "data": null,
@@ -49,7 +49,7 @@ $(document).ready(function() {
             }
         ],
         columnDefs : [
-            {"orderable": false, "targets" : [1,2,4]}
+            {"orderable": false, "targets" : [1,2,3]}
         ],
         });
         

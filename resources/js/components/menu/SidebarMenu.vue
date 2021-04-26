@@ -20,7 +20,7 @@
                     </router-link>
                 </b-nav-text>
                 <b-nav-text>
-                    <router-link :to="{ name: 'about' }" custom v-slot="{ href, navigate, isExactActive }">
+                    <router-link :to="{ name: 'about-us' }" custom v-slot="{ href, navigate, isExactActive }">
                         <a :href="href" @click="navigate" @keypress.enter="navigate" role="link" class="nav-link" :class="isExactActive ? 'active' : '' ">About</a>
                     </router-link>
                 </b-nav-text>

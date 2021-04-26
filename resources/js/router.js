@@ -40,8 +40,8 @@ const router = new VueRouter({
                     meta: ({ title: 'Products Detail' })
                 },
                 {
-                  path: 'about',
-                  name: 'about',
+                  path: 'about-us',
+                  name: 'about-us',
                   component: About,
                   meta: ({ title: 'About' }) 
                 },

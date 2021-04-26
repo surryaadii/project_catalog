@@ -319,10 +319,12 @@
 <script src="{{asset('assets/admin/js/libs/jquery-confirm.js')}}"></script>
 <!-- fancybox -->
 <script src="{{asset('assets/admin/js/libs/jquery.fancybox.min.js')}}"></script>
+<!-- ckeditor -->
+<script src="{{asset('assets/admin/adminLTE/bower_components/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('assets/admin/adminLTE/bower_components/ckeditor/adapters/jquery.js')}}"></script>
 <!-- select2 -->
 <script src="{{asset('assets/admin/adminLTE/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
 <script src="{{asset('assets/admin/js/scripts.js')}}"></script>
-<script src="{{ asset('assets/admin/js/auth.js')}}"></script>
 <script> 
   // global app configuration object
   var config = {
